@@ -8,6 +8,8 @@ function NewProductBanner({ addProduct, disabled }) {
   const [price, setPrice] = useState("");
 
   const handlePriceChange = (e) => {
+    if (e.target.value === "") setPrice("");
+
     const newValue = parseFloat(e.target.value);
     if (!isNaN(newValue)) {
       setPrice(newValue);

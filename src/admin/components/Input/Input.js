@@ -5,6 +5,8 @@ function Input({ type, value, onEdit }) {
   const [data, setData] = useState(value);
 
   const handleNumberInputChange = (e) => {
+    if (e.target.value === "") setData("");
+
     const newValue = parseFloat(e.target.value);
     if (!isNaN(newValue)) {
       setData(newValue);
