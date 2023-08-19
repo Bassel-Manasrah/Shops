@@ -1,34 +1,29 @@
 import React from "react";
 import styles from "./NewProductBanner.module.css";
 import { useState } from "react";
-// import DropDown from "../DropDown";
-// import useLocations from "../../hooks/useLocations";
-// import LoadingDropDown from "../LoadingDropDown";
 import { createProduct } from "../../services/firebase";
-// import { createEvent } from "../../services/firebase";
 
-function NewProductBanner({ notifyNewProduct }) {
-  const [isCreateLoading, setIsCreateLoading] = useState(false);
-
+function NewProductBanner({ addProduct }) {
   const [name, setName] = useState("");
   const [price, setPrice] = useState(null);
 
-  async function addProduct(e) {
+  const handlePriceChange = (e) => {
+    const newValue = parseFloat(e.target.value);
+    if (!isNaN(newValue)) {
+      setPrice(newValue);
+    }
+  };
+
+  async function submitProduct(e) {
     e.preventDefault();
+
     if (name === "" || !price) {
       return;
     }
 
-    setIsCreateLoading(true);
-
-    const newProduct = { name, price };
-    await createProduct(newProduct);
+    addProduct({ name, price });
     setName("");
-    setPrice("");
-
-    setIsCreateLoading(false);
-
-    notifyNewProduct(newProduct);
+    setPrice(null);
   }
 
   return (
@@ -38,7 +33,7 @@ function NewProductBanner({ notifyNewProduct }) {
       </div>
       <div className={styles.Body}>
         <div className={styles.AddEvent}>
-          <form onSubmit={addProduct}>
+          <form onSubmit={submitProduct}>
             <input
               className={styles.eventField}
               value={name}
@@ -51,7 +46,7 @@ function NewProductBanner({ notifyNewProduct }) {
               className={styles.eventField}
               value={price}
               type="number"
-              onChange={(e) => setPrice(e.target.value)}
+              onChange={handlePriceChange}
               placeholder="מחיר מוצר"
             />
 

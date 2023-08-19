@@ -4,6 +4,13 @@ import styles from "./Input.module.css";
 function Input({ type, value, onEdit }) {
   const [data, setData] = useState(value);
 
+  const handleNumberInputChange = (e) => {
+    const newValue = parseFloat(e.target.value);
+    if (!isNaN(newValue)) {
+      setData(newValue);
+    }
+  };
+
   useEffect(() => {
     setData(value);
     // console.log(value);
@@ -14,8 +21,12 @@ function Input({ type, value, onEdit }) {
       className={styles.myInput}
       value={data}
       type={type}
-      onBlur={(e) => onEdit(e.target.value)}
-      onChange={(e) => setData(e.target.value)}
+      onBlur={(e) => onEdit(data)}
+      onChange={
+        type == "number"
+          ? handleNumberInputChange
+          : (e) => setData(e.target.value)
+      }
     />
   );
 }

@@ -38,7 +38,7 @@ export default function ProductPage() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <NewProductBanner notifyNewProduct={addProduct} />
+        <NewProductBanner addProduct={addProduct} />
       </div>
       <select
         onChange={(e) => {
