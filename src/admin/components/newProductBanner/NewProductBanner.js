@@ -3,9 +3,9 @@ import styles from "./NewProductBanner.module.css";
 import { useState } from "react";
 import { createProduct } from "../../services/firebase";
 
-function NewProductBanner({ addProduct }) {
+function NewProductBanner({ addProduct, disabled }) {
   const [name, setName] = useState("");
-  const [price, setPrice] = useState(null);
+  const [price, setPrice] = useState("");
 
   const handlePriceChange = (e) => {
     const newValue = parseFloat(e.target.value);
@@ -23,7 +23,7 @@ function NewProductBanner({ addProduct }) {
 
     addProduct({ name, price });
     setName("");
-    setPrice(null);
+    setPrice("");
   }
 
   return (
@@ -35,6 +35,7 @@ function NewProductBanner({ addProduct }) {
         <div className={styles.AddEvent}>
           <form onSubmit={submitProduct}>
             <input
+              disabled={disabled}
               className={styles.eventField}
               value={name}
               type="text"
@@ -43,6 +44,7 @@ function NewProductBanner({ addProduct }) {
             />
 
             <input
+              disabled={disabled}
               className={styles.eventField}
               value={price}
               type="number"
@@ -51,6 +53,7 @@ function NewProductBanner({ addProduct }) {
             />
 
             <button
+              disabled={disabled}
               className={styles.addButton}
               type="submit"
               variant="contained"

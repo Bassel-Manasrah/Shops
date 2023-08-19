@@ -34,11 +34,12 @@ export default function ProductPage() {
       ],
     });
   };
+  console.log(selectedStore);
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <NewProductBanner addProduct={addProduct} />
+        <NewProductBanner addProduct={addProduct} disabled={!selectedStore} />
       </div>
       <select
         onChange={(e) => {
