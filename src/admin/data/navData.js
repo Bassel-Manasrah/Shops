@@ -11,12 +11,18 @@ import PeopleIcon from "@mui/icons-material/People";
 export const navData = [
   {
     id: 0,
+    icon: <LocalMallIcon />,
+    text: "חנויות",
+    value: "shops",
+  },
+  {
+    id: 1,
     icon: <CelebrationIcon />,
     text: "אירועים",
     value: "events",
   },
   {
-    id: 1,
+    id: 2,
     icon: <CategoryIcon />,
     text: "מוצרים",
     value: "products",
@@ -29,13 +35,13 @@ export const navData = [
     value: "users",
   },
   {
-    id: 2,
+    id: 4,
     icon: <LocalMallIcon />,
     text: "הזמנות",
     value: "dashboard",
   },
   {
-    id: 4,
+    id: 5,
     icon: <LocalMallIcon />,
     text: "סטטיסטיקה",
     value: "stats",

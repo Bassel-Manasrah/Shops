@@ -31,6 +31,7 @@ import {
 import EventPage from "./pages/EventPage";
 import Dashboard from "./pages/Dashboard";
 import { Static } from "./pages/static/static";
+import StoresPage from "./pages/StoresPage/StoresPage";
 
 function Admin() {
   return (
@@ -41,6 +42,7 @@ function Admin() {
         <Routes>
           <Route path="/" element={<EventPage />} />
           <Route path="/events/" element={<EventPage />} />
+          <Route path="/shops/" element={<StoresPage />} />
           <Route path="/products" element={<ProductPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           {/* <Route

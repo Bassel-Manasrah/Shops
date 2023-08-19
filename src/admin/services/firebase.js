@@ -9,6 +9,7 @@ import {
 import { database as db, storage } from "../../firebase";
 import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
 
+const storesCollectionRef = collection(db, "stores");
 const eventsCollectionRef = collection(db, "events");
 const productsCollectionRef = collection(db, "products");
 const usersCollectionRef = collection(db, "users");
@@ -24,6 +25,10 @@ export async function createLocation(newLocation) {
 export async function createEvent(newEvent) {
   const eventCollection = collection(db, "events");
   await addDoc(eventCollection, newEvent);
+}
+
+export async function createStore(newStore) {
+  await addDoc(storesCollectionRef, newStore);
 }
 
 export async function createProduct(newProduct) {
@@ -48,6 +53,19 @@ export async function getEvents() {
 
     return {
       ...event,
+      id: doc.id,
+    };
+  });
+
+  return filteredData;
+}
+
+export async function getStores() {
+  const data = await getDocs(storesCollectionRef);
+  const filteredData = data.docs.map((doc) => {
+    const store = doc.data();
+    return {
+      ...store,
       id: doc.id,
     };
   });

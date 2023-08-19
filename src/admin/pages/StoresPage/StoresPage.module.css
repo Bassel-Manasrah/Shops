@@ -1,0 +1,34 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+
+.container {
+  height: 100%;
+  width: 100%;
+  background-color: #eff5fb;
+  font-family: "Poppins";
+  padding: 64px;
+  height: 100vh;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.storeList {
+  flex: 1;
+}
+
+.header {
+  display: flex;
+  gap: 16px;
+}
+
+select {
+  margin-top: 16px;
+  padding: 8px 12px;
+  font-size: 14px; /* Adjust font size as needed */
+  border: 1px solid #ccc; /* Add border as needed */
+  border-radius: 4px; /* Add border-radius as needed */
+  background-color: #fff; /* Set background color as needed */
+  color: #333; /* Set text color as needed */
+  cursor: pointer; /* Show pointer cursor on hover */
+}
