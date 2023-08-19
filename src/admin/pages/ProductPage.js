@@ -4,114 +4,52 @@ import SelectableTable from "../components/SelectableTable";
 import Table from "../components/Table";
 import { updateEvent, updateProduct } from "../services/firebase";
 import styles from "./ProductPage.module.css";
-import useProducts from "../hooks/useProducts";
-import useEvents from "../hooks/useEvents";
 import NewProductBanner from "../components/newProductBanner/NewProductBanner";
+import useFirestore from "../hooks/useFirstore";
 
-function ProductPage() {
-  const [objects, setObjects] = useState(null);
-  let {
-    products,
-    loading: productsLoading,
-    // error: productsError,
-  } = useProducts();
+export default function ProductPage() {
+  const [stores, addStore, updateStore, deleteStore] = useFirestore("stores");
+  const [selectedStoreID, setSelectedStoreID] = useState(null);
 
-  useEffect(() => {
-    setObjects(products);
-  }, [productsLoading]);
+  const selectedStore = stores.find((store) => store.id === selectedStoreID);
 
-  function newProduct(prod) {
-    setObjects([...objects, prod]);
-  }
-
-  const { events, loading: eventsLoading, error: eventsError } = useEvents();
-  const [selectedEvent, setSelectedEvent] = useState(null);
-
-  const select = async (productID_toSelect) => {
-    // console.log(`select ${productID} for ${selectedEvent.id}`);
-
-    const newProductsList = [...selectedEvent.products, productID_toSelect];
-    //console.log(newProductsList);
-
-    setSelectedEvent({
-      ...selectedEvent,
-      products: newProductsList,
-    });
-
-    await updateEvent(selectedEvent.id, {
-      products: newProductsList,
+  const addProduct = (product) => {
+    updateStore({
+      ...selectedStore,
+      products: [...selectedStore.products, product],
     });
   };
 
-  const unselect = async (productID_toUnselect) => {
-    // console.log(`unselect ${productID} for ${selectedEvent.id}`);
-    // await updateEvent(selectedEvent.id, {
-    //   products: selectedEvent.products.filter(
-    //     (product) => product.id !== productID
-    //   ),
-    // });
-
-    const newProductsList = selectedEvent.products.filter((productID) => {
-      return productID_toUnselect !== productID;
-    });
-    //console.log(newProductsList);
-
-    setSelectedEvent({
-      ...selectedEvent,
-      products: newProductsList,
-    });
-
-    await updateEvent(selectedEvent.id, {
-      products: newProductsList,
-    });
-  };
+  const updateProduct = () => {};
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <NewProductBanner notifyNewProduct={newProduct} />
-        {/* <h1>Products</h1> */}
-        {/* {!eventsLoading && (
-          
-        )} */}
+        <NewProductBanner notifyNewProduct={addProduct} />
       </div>
       <select
-        onChange={(e) =>
-          setSelectedEvent(events.find((event) => event.id === e.target.value))
-        }
+        onChange={(e) => {
+          setSelectedStoreID(e.target.value);
+        }}
       >
         <option className={styles.optionclass} value={"NONE"}>
-          תבחר אירוע
+          תבחר חנות
         </option>
-        {events.map((event) => (
-          <option className={styles.optionclass} value={event.id}>
-            {event.date.split("T")[0]}
+        {stores.map((store) => (
+          <option className={styles.optionclass} value={store.id}>
+            {store.name}
           </option>
         ))}
       </select>
-      {!productsLoading && !selectedEvent && (
+      {selectedStoreID && (
         <>
           <Table
-            data={objects}
+            data={selectedStore.products}
             columns={productsColumns}
             update={updateProduct}
           />
         </>
       )}
-      {!productsLoading && selectedEvent && (
-        <SelectableTable
-          data={objects}
-          selectedData={objects.filter((product) =>
-            selectedEvent.products.includes(product.id)
-          )}
-          columns={productsColumns}
-          update={updateProduct}
-          select={select}
-          unselect={unselect}
-        />
-      )}
     </div>
   );
 }
-
-export default ProductPage;

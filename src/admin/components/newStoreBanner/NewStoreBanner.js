@@ -12,7 +12,7 @@ export default function NewStoreBanner({ addStore }) {
     if (storeName === "") {
       return;
     }
-    addStore({ name: storeName });
+    addStore({ name: storeName, products: [] });
     setStoreName("");
   }
 

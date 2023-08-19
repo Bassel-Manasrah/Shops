@@ -5,7 +5,7 @@ import StoreList from "../../components/StoreList";
 import useFirestore from "../../hooks/useFirstore";
 
 export default function StoresPage() {
-  const [stores, addStore, deleteStore] = useFirestore("stores");
+  const [stores, addStore, updateStore, deleteStore] = useFirestore("stores");
 
   return (
     <div className={styles.container}>
