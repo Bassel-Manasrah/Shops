@@ -6,6 +6,8 @@ import { updateEvent, updateProduct } from "../services/firebase";
 import styles from "./ProductPage.module.css";
 import NewProductBanner from "../components/newProductBanner/NewProductBanner";
 import useFirestore from "../hooks/useFirstore";
+import { storage } from "../../firebase";
+import { ref, uploadBytes } from "firebase/storage";
 
 export default function ProductPage() {
   const [stores, addStore, updateStore, deleteStore] = useFirestore("stores");
@@ -21,18 +23,23 @@ export default function ProductPage() {
   };
 
   const updateProduct = (productIndex, modification) => {
-    const originalProduct = selectedStore.products[productIndex];
-    const updatedProduct = { ...originalProduct, ...modification };
+    if (modification.image) {
+      const imageRef = ref(storage, `${selectedStore.name}/${productIndex}`);
+      uploadBytes(imageRef, modification.image);
+    } else {
+      const originalProduct = selectedStore.products[productIndex];
+      const updatedProduct = { ...originalProduct, ...modification };
 
-    updateStore({
-      ...selectedStore,
-      products: [
-        ...selectedStore.products.filter(
-          (product) => product !== originalProduct
-        ),
-        updatedProduct,
-      ],
-    });
+      updateStore({
+        ...selectedStore,
+        products: [
+          ...selectedStore.products.filter(
+            (product) => product !== originalProduct
+          ),
+          updatedProduct,
+        ],
+      });
+    }
   };
   console.log(selectedStore);
 
