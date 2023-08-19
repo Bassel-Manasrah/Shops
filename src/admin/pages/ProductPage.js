@@ -45,7 +45,7 @@ export default function ProductPage() {
           setSelectedStoreID(e.target.value);
         }}
       >
-        <option className={styles.optionclass} value={"NONE"}>
+        <option disabled selected className={styles.optionclass} value="">
           תבחר חנות
         </option>
         {stores.map((store) => (
