@@ -42,13 +42,13 @@ export default function ProductPage() {
         ))}
       </select>
       {selectedStoreID && (
-        <>
-          <Table
-            data={selectedStore.products}
-            columns={productsColumns}
-            update={updateProduct}
-          />
-        </>
+        <Table
+          data={selectedStore.products.map((product, index) => {
+            return { ...product, id: index };
+          })}
+          columns={productsColumns}
+          update={updateProduct}
+        />
       )}
     </div>
   );

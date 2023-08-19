@@ -1,8 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Input.module.css";
 
 function Input({ type, value, onEdit }) {
   const [data, setData] = useState(value);
+
+  useEffect(() => {
+    setData(value);
+    // console.log(value);
+  }, [value]);
 
   return (
     <input

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ImageDrop from "../ImageDrop";
 import CheckBox from "../CheckBox";
 import Input from "../Input";
@@ -12,6 +12,11 @@ const Cell = ({ data, column, update }) => {
 
   const [cellData, setCellData] = useState(data[column.accessor]);
   const [locations, loading, error] = useLocations();
+
+  useEffect(() => {
+    setCellData(data[column.accessor]);
+    console.log(data);
+  }, [data]);
 
   if (column.type === "checkBox") {
     return (
