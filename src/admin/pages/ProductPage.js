@@ -20,7 +20,20 @@ export default function ProductPage() {
     });
   };
 
-  const updateProduct = () => {};
+  const updateProduct = (productIndex, modification) => {
+    const originalProduct = selectedStore.products[productIndex];
+    const updatedProduct = { ...originalProduct, ...modification };
+
+    updateStore({
+      ...selectedStore,
+      products: [
+        ...selectedStore.products.filter(
+          (product) => product !== originalProduct
+        ),
+        updatedProduct,
+      ],
+    });
+  };
 
   return (
     <div className={styles.container}>
