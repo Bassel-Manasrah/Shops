@@ -103,8 +103,10 @@ export default function ProductPage() {
             <TableHeader></TableHeader>
             <TableHeader>שם</TableHeader>
             <TableHeader>מחיר</TableHeader>
+            <TableHeader>הנחת חבר מועדון</TableHeader>
             <TableHeader>סוג</TableHeader>
             <TableHeader>תמונה</TableHeader>
+            <TableHeader>תיאור קצר</TableHeader>
           </TableHead>
           <TableBody>
             {selectedStore.products
@@ -131,6 +133,13 @@ export default function ProductPage() {
                     }
                   />
 
+                  <input
+                    value={product.discount}
+                    onChange={(e) =>
+                      updateProduct(product.id, { discount: e.target.value })
+                    }
+                  />
+
                   <DropDownV2
                     options={options}
                     value={product.isGrams ? options[0] : options[1]}
@@ -143,6 +152,13 @@ export default function ProductPage() {
                     imageStartUrl={product.imageUrl}
                     onChange={(newImage) =>
                       updateProductImage(product.id, newImage)
+                    }
+                  />
+
+                  <input
+                    value={product.desc}
+                    onChange={(e) =>
+                      updateProduct(product.id, { desc: e.target.value })
                     }
                   />
                 </Row>

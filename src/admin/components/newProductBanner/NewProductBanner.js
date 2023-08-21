@@ -3,6 +3,7 @@ import styles from "./NewProductBanner.module.css";
 import { useState } from "react";
 import { createProduct } from "../../services/firebase";
 import DropDownV2 from "../DropDownV2";
+import { Input, TextField } from "@mui/material";
 
 function NewProductBanner({ addProduct, disabled }) {
   const options = [
@@ -12,27 +13,31 @@ function NewProductBanner({ addProduct, disabled }) {
 
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
+  const [desc, setDesc] = useState("");
+  const [discount, setDiscount] = useState("");
   const [isGrams, setIsGrams] = useState(false);
 
-  const handlePriceChange = (e) => {
-    if (e.target.value === "") setPrice("");
+  const handleNumberInputChange = (e, setNumber) => {
+    if (e.target.value === "") setNumber("");
 
     const newValue = parseFloat(e.target.value);
     if (!isNaN(newValue)) {
-      setPrice(newValue);
+      setNumber(newValue);
     }
   };
 
   async function submitProduct(e) {
     e.preventDefault();
 
-    if (name === "" || !price) {
+    if (name === "" || price === "" || discount === "") {
       return;
     }
 
-    addProduct({ name, price, isGrams });
+    addProduct({ name, price, isGrams, desc, discount });
     setName("");
     setPrice("");
+    setDiscount("");
+    setDesc("");
   }
 
   return (
@@ -53,12 +58,27 @@ function NewProductBanner({ addProduct, disabled }) {
             />
 
             <input
+              variant="outlined"
               disabled={disabled}
               className={styles.eventField}
               value={price}
               type="number"
-              onChange={handlePriceChange}
+              onChange={(e) => handleNumberInputChange(e, setPrice)}
               placeholder="מחיר מוצר"
+            />
+
+            <input
+              variant="outlined"
+              disabled={disabled}
+              className={styles.eventField}
+              value={discount}
+              type="number"
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value > 100 || value < 0) return;
+                handleNumberInputChange(e, setDiscount);
+              }}
+              placeholder="הנחת חבר מועדון"
             />
 
             <DropDownV2
@@ -66,6 +86,16 @@ function NewProductBanner({ addProduct, disabled }) {
               value={isGrams ? options[0] : options[1]}
               onChange={(option) => setIsGrams(option.value)}
               isDisabled={disabled}
+            />
+
+            <input
+              variant="outlined"
+              disabled={disabled}
+              className={styles.eventField}
+              value={desc}
+              type="text"
+              onChange={(e) => setDesc(e.target.value)}
+              placeholder="תיאור קצר"
             />
 
             <button
