@@ -2,10 +2,17 @@ import React from "react";
 import styles from "./NewProductBanner.module.css";
 import { useState } from "react";
 import { createProduct } from "../../services/firebase";
+import DropDownV2 from "../DropDownV2";
 
 function NewProductBanner({ addProduct, disabled }) {
+  const options = [
+    { value: true, label: "גרמים" },
+    { value: false, label: "יחידים" },
+  ];
+
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
+  const [isGrams, setIsGrams] = useState(false);
 
   const handlePriceChange = (e) => {
     if (e.target.value === "") setPrice("");
@@ -23,7 +30,7 @@ function NewProductBanner({ addProduct, disabled }) {
       return;
     }
 
-    addProduct({ name, price });
+    addProduct({ name, price, isGrams });
     setName("");
     setPrice("");
   }
@@ -52,6 +59,13 @@ function NewProductBanner({ addProduct, disabled }) {
               type="number"
               onChange={handlePriceChange}
               placeholder="מחיר מוצר"
+            />
+
+            <DropDownV2
+              options={options}
+              value={isGrams ? options[0] : options[1]}
+              onChange={(option) => setIsGrams(option.value)}
+              isDisabled={disabled}
             />
 
             <button

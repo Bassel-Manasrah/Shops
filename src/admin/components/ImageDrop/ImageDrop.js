@@ -1,8 +1,7 @@
 import { useState } from "react";
 import styles from "./imageDrop.module.css";
 
-function DragAndDrop({ imageStartUrl, imageID, update }) {
-  const [imageUrl, setImageUrl] = useState(imageStartUrl);
+function DragAndDrop({ imageStartUrl, onChange }) {
   const [isBig, setBig] = useState(false);
 
   function handleDragOver(event) {
@@ -15,15 +14,12 @@ function DragAndDrop({ imageStartUrl, imageID, update }) {
   }
 
   function handleDrop(event) {
-    //console.log(update);
-
     event.preventDefault();
     const file = event.dataTransfer.files[0];
     const fileUrl = URL.createObjectURL(file);
-    setImageUrl(fileUrl);
     setBig(false);
 
-    update(imageID, { image: file });
+    onChange(file);
   }
 
   return (
@@ -34,7 +30,7 @@ function DragAndDrop({ imageStartUrl, imageID, update }) {
         onDrop={handleDrop}
         onDragLeave={handleDragLeave}
       >
-        {<img src={imageUrl}></img>}
+        {<img src={imageStartUrl}></img>}
       </div>
     </>
   );
