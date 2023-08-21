@@ -6,7 +6,7 @@ const StyledTable = styled.table`
   margin: 16px 0;
   font-size: 16px;
   font-family: "Poppins";
-  width: 1200px;
+  width: 1300px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
   direction: rtl;
   background-color: white;

@@ -1,6 +1,5 @@
 .Content {
-  width: 100%;
-  width: 1200px;
+  width: 1300px;
 }
 
 .Content > .Header {
@@ -33,68 +32,40 @@
   border-bottom-left-radius: 10px;
 }
 
-.Content > .Body .Events {
-  padding: 0;
-  display: table;
-  width: 100%;
-  list-style-type: none;
-  margin: 0;
-}
-
-.Content > .Body .Events li {
-  padding: 10px 20px;
-  border-bottom: 1px solid #ddd;
-  display: flex;
-}
-
-.Content > .Body .Events li > .Event {
-  width: 100%;
-}
-
-.Content > .Body .Events li > .Time,
-.Content > .Body .Events li > .Action {
-  text-align: right;
-  width: 20%;
-}
-
-.Action {
-  color: red;
-  font-weight: bold;
-  cursor: pointer;
-}
-
 .Content > .Body > .AddEvent {
   width: 100%;
   padding: 20px;
   box-sizing: border-box;
+  display: flex;
+}
+
+.Input {
+  padding: 8px;
+  flex: 1;
 }
 
 .addButton {
   /* margin-left: auto; */
-  width: 164px;
+  width: 200px;
   background-color: rgb(87, 121, 91, 0.959);
   color: white;
   font-weight: bold;
+  height: 100%;
 }
 .Content > .Body > .AddEvent form {
   width: 100%;
   display: flex;
-  gap: 24px;
+  gap: 4px;
+  align-items: center;
 }
 
-.Content > .Body > .AddEvent input[type="text"] {
-  display: block;
-  font-size: 17px;
-  padding: 5px;
-  color: #000;
-}
-.eventFiled {
-  width: 100%;
+/* .eventField {
+  flex: 1;
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
   border: 1px solid #ddd;
-}
-.eventTime {
+} */
+/* .eventTime {
   width: 30%;
   border: 1px solid #ddd;
   border-left: none;
@@ -115,7 +86,7 @@
 input[type="text"],
 button {
   outline: none;
-}
+} */
 
 button:disabled {
   background-color: lightgray;

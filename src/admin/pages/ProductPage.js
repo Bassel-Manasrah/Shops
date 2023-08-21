@@ -13,15 +13,26 @@ import TableHead from "../components/Table/TableHead";
 import TableBody from "../components/Table/TableBody";
 import TableHeader from "../components/Table/TableHeader";
 import Row from "../components/Table/Row";
-import { Button, IconButton, Input } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  IconButton,
+  Input,
+} from "@mui/material";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import ImageDrop from "../components/ImageDrop";
 import { v4 } from "uuid";
 import DropDownV2 from "../components/DropDownV2";
+import CheckBox from "../components/CheckBox/CheckBox";
 
 export default function ProductPage() {
   const [stores, addStore, updateStore, deleteStore] = useFirestore("stores");
   const [selectedStoreID, setSelectedStoreID] = useState(null);
+
+  const [productToDelete, setProductToDelete] = useState(null);
+  const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
 
   const selectedStore = stores.find((store) => store.id === selectedStoreID);
 
@@ -91,80 +102,121 @@ export default function ProductPage() {
         ))}
       </select>
       {selectedStoreID && (
-        // <Table
-        //   data={selectedStore.products.map((product, index) => {
-        //     return { ...product, id: index };
-        //   })}
-        //   columns={productsColumns}
-        //   update={updateProduct}
-        // />
-        <TableV2>
-          <TableHead>
-            <TableHeader></TableHeader>
-            <TableHeader>שם</TableHeader>
-            <TableHeader>מחיר</TableHeader>
-            <TableHeader>הנחת חבר מועדון</TableHeader>
-            <TableHeader>סוג</TableHeader>
-            <TableHeader>תמונה</TableHeader>
-            <TableHeader>תיאור קצר</TableHeader>
-          </TableHead>
-          <TableBody>
-            {selectedStore.products
-              .sort((a, b) => b.price - a.price)
-              .map((product) => (
-                <Row>
-                  <IconButton
-                    onClick={() => {
-                      deleteProduct(product);
-                    }}
-                  >
-                    <RemoveCircleIcon style={{ color: "#d9534f" }} />
-                  </IconButton>
-                  <input
-                    value={product.name}
-                    onChange={(e) =>
-                      updateProduct(product.id, { name: e.target.value })
-                    }
-                  />
-                  <input
-                    value={product.price}
-                    onChange={(e) =>
-                      updateProduct(product.id, { price: e.target.value })
-                    }
-                  />
+        <>
+          <TableV2>
+            <TableHead>
+              <TableHeader></TableHeader>
+              <TableHeader>שם</TableHeader>
+              <TableHeader>מחיר</TableHeader>
+              <TableHeader>הנחת חבר מועדון</TableHeader>
+              <TableHeader>כמות</TableHeader>
+              <TableHeader>סוג</TableHeader>
+              <TableHeader>תמונה</TableHeader>
+              <TableHeader>תיאור קצר</TableHeader>
+              <TableHeader>הסתר</TableHeader>
+            </TableHead>
+            <TableBody>
+              {selectedStore.products
+                .sort((a, b) => b.price - a.price)
+                .map((product) => (
+                  <Row>
+                    <IconButton
+                      onClick={() => {
+                        setProductToDelete(product);
+                        setDeleteConfirmationOpen(true);
+                      }}
+                    >
+                      <RemoveCircleIcon style={{ color: "#d9534f" }} />
+                    </IconButton>
+                    <input
+                      value={product.name}
+                      onChange={(e) =>
+                        updateProduct(product.id, { name: e.target.value })
+                      }
+                    />
+                    <input
+                      value={product.price}
+                      onChange={(e) =>
+                        updateProduct(product.id, { price: e.target.value })
+                      }
+                    />
 
-                  <input
-                    value={product.discount}
-                    onChange={(e) =>
-                      updateProduct(product.id, { discount: e.target.value })
-                    }
-                  />
+                    <input
+                      value={product.discount}
+                      onChange={(e) =>
+                        updateProduct(product.id, { discount: e.target.value })
+                      }
+                    />
 
-                  <DropDownV2
-                    options={options}
-                    value={product.isGrams ? options[0] : options[1]}
-                    onChange={(option) =>
-                      updateProduct(product.id, { isGrams: option.value })
-                    }
-                  />
+                    <input
+                      value={product.quantity}
+                      onChange={(e) =>
+                        updateProduct(product.id, { quantity: e.target.value })
+                      }
+                    />
 
-                  <ImageDrop
-                    imageStartUrl={product.imageUrl}
-                    onChange={(newImage) =>
-                      updateProductImage(product.id, newImage)
-                    }
-                  />
+                    <DropDownV2
+                      options={options}
+                      value={product.isGrams ? options[0] : options[1]}
+                      onChange={(option) =>
+                        updateProduct(product.id, { isGrams: option.value })
+                      }
+                    />
 
-                  <input
-                    value={product.desc}
-                    onChange={(e) =>
-                      updateProduct(product.id, { desc: e.target.value })
-                    }
-                  />
-                </Row>
-              ))}
-          </TableBody>
-        </TableV2>
+                    <ImageDrop
+                      imageStartUrl={product.imageUrl}
+                      onChange={(newImage) =>
+                        updateProductImage(product.id, newImage)
+                      }
+                    />
+
+                    <input
+                      value={product.desc}
+                      onChange={(e) =>
+                        updateProduct(product.id, { desc: e.target.value })
+                      }
+                    />
+                    <CheckBox
+                      checked={product.hide}
+                      update={(value) =>
+                        updateProduct(product.id, { hide: value })
+                      }
+                    />
+                  </Row>
+                ))}
+            </TableBody>
+          </TableV2>
+          <Dialog
+            open={deleteConfirmationOpen}
+            onClose={() => setProductToDelete(null)}
+            maxWidth="md" // Set the maximum width (can be "xs", "sm", "md", "lg", "xl")
+            PaperProps={{
+              style: {
+                width: "20%", // Set the width of the dialog content
+                maxHeight: "80vh", // Set the maximum height of the dialog content
+              },
+            }}
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"למחוק את המוצר ?"}
+            </DialogTitle>
+            <DialogActions>
+              <Button onClick={() => setDeleteConfirmationOpen(false)}>
+                בטל
+              </Button>
+              <Button
+                onClick={() => {
+                  deleteProduct(productToDelete);
+                  setDeleteConfirmationOpen(false);
+                }}
+                style={{ color: "red" }}
+                autoFocus
+              >
+                מחק
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </>
       )}
     </div>
   );
