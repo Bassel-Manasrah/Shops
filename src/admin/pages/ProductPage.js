@@ -4,7 +4,6 @@ import SelectableTable from "../components/SelectableTable";
 import Table from "../components/Table";
 import { updateEvent, updateProduct } from "../services/firebase";
 import styles from "./ProductPage.module.css";
-import NewProductBanner from "../components/newProductBanner/NewProductBanner";
 import useFirestore from "../hooks/useFirstore";
 import { storage } from "../../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
