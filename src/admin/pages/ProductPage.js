@@ -26,6 +26,7 @@ import ImageDrop from "../components/ImageDrop";
 import { v4 } from "uuid";
 import DropDownV2 from "../components/DropDownV2";
 import CheckBox from "../components/CheckBox/CheckBox";
+import NewProductBannerV2 from "../components/NewProductBannerV2";
 
 export default function ProductPage() {
   const [stores, addStore, updateStore, deleteStore] = useFirestore("stores");
@@ -84,8 +85,10 @@ export default function ProductPage() {
 
   return (
     <div className={styles.container}>
+      <h1 className="text-3xl mb-6 font-bold">מוצרים</h1>
       <div className={styles.header}>
-        <NewProductBanner addProduct={addProduct} disabled={!selectedStore} />
+        {/* <NewProductBanner addProduct={addProduct} disabled={!selectedStore} /> */}
+        <NewProductBannerV2 addProduct={addProduct} disabled={!selectedStore} />
       </div>
       <select
         onChange={(e) => {
@@ -189,11 +192,11 @@ export default function ProductPage() {
           <Dialog
             open={deleteConfirmationOpen}
             onClose={() => setProductToDelete(null)}
-            maxWidth="md" // Set the maximum width (can be "xs", "sm", "md", "lg", "xl")
+            maxWidth="md"
             PaperProps={{
               style: {
-                width: "20%", // Set the width of the dialog content
-                maxHeight: "80vh", // Set the maximum height of the dialog content
+                width: "20%",
+                maxHeight: "80vh",
               },
             }}
           >
