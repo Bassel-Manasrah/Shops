@@ -15,12 +15,12 @@ export const Card = ({
   typeOfProduct,
   changeTheList,
   isClickMain,
-  quntatyMain,
+  quantityMain: quantityMain,
   funcToRemovePrice,
 }) => {
   const dispatch = useDispatch();
 
-  const [quntaty, setQuntaty] = useState(quntatyMain);
+  const [quantity, setQuantity] = useState(isNaN(quantityMain) ? 0 : quantityMain);
   const [isClicked, setIsClicked] = useState(false);
   const [isTrue, setIsTrue] = useState(false);
   const [selectProduct, setSelectProduct] = useState({});
@@ -41,9 +41,9 @@ export const Card = ({
         let NewSelectProduct = {
           idProduct: id,
           nameOfProduct: title,
-          QuantityOfProduct: quntaty * 100,
+          QuantityOfProduct: quantity * 100,
           PriceProduct: price,
-          totalPrice: quntaty * price,
+          totalPrice: quantity * price,
           imagePath: imageUrl,
         };
         setSelectProduct(NewSelectProduct);
@@ -54,11 +54,11 @@ export const Card = ({
   }, [isClicked]);
 
   function handleClick() {
-    if (quntaty > 0) {
+    if (quantity > 0) {
       if (isTrue) {
         setIsTrue(false);
         dispatch(deleteItem(id));
-        funcToRemovePrice(quntaty * price);
+        funcToRemovePrice(quantity * price);
       } else {
         setIsClicked(!isClicked);
       }
@@ -80,22 +80,22 @@ export const Card = ({
           <p
             className="card-increment"
             onClick={() => {
-              quntaty < 50 &&
+              quantity < 50 &&
               isClicked === false &&
               isTrue === false
-                ? setQuntaty(quntaty + 1)
-                : setQuntaty(quntaty);
+                ? setQuantity(quantity + 1)
+                : setQuantity(quantity);
             }}
           >
             +
           </p>
-          <h2 className="card-title-quantaty">{quntaty * howMuchToIncrease}</h2>
+          <h2 className="card-title-quantaty">{quantity * howMuchToIncrease}</h2>
           <p
             className="card-decrease"
             onClick={() => {
-              quntaty > 0 && isClicked === false && isTrue === false
-                ? setQuntaty(quntaty - 1)
-                : setQuntaty(quntaty);
+              quantity > 0 && isClicked === false && isTrue === false
+                ? setQuantity(quantity - 1)
+                : setQuantity(quantity);
             }}
           >
             -
