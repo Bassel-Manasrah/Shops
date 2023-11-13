@@ -41,7 +41,7 @@ export default function Complete() {
 
     await createOrder(order); // Wait for order creation to complete
 
-    navigate("/home");
+    navigate("/");
   };
 
   const createOrder = async (newOrder) => {

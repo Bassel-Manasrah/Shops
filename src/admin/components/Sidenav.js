@@ -19,7 +19,7 @@ function Sidenav() {
   const handleLogout = () => {
     signOut(auth)
       .then(() => {
-        navigate("/home");
+        navigate("/");
         dispatch(resetCart()); // Clear the productData state
         dispatch(setLogin(false)); // Set isLogin to false
         dispatch(setAdmin(false)); // Set isLogin to false

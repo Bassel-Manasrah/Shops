@@ -134,7 +134,7 @@ const CartItem = () => {
         </div>
       )}
 
-      <Link to="/shop">
+      <Link to="/shops">
         <button className="mt-8 ml-7 flex items-center gap-1 text-black hover:bg-red-500 duration-300 text-2xl">
           <span>
             <HiOutlineArrowRight />

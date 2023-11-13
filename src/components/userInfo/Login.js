@@ -65,7 +65,7 @@ const Login = () => {
           navigate("/admin/");
         } else {
           dispatch(setAdmin(false));
-          navigate("/home");
+          navigate("/");
           dispatch(setLogin(true));
           //console.log(email);
         }

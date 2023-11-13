@@ -22,7 +22,7 @@ const Header = () => {
   const handleButtonClick = () => {
     signOut(auth)
       .then(() => {
-        navigate("/home");
+        navigate("/");
         dispatch(resetCart());
         dispatch(setLogin(false));
       })
@@ -53,18 +53,18 @@ const Header = () => {
   return (
     <div className="navbar w-full h-16 border-b-[1px] border-b-gray-800 sticky top-0 z-50 flex items-center justify-between px-4">
       <div className="flex items-center gap-4">
-        <Link to="/shop">
+        <Link to="/shops">
           <img className="logo w-auto h-14" src={logo} alt="logo" />
         </Link>
 
         <ul className="flex items-center gap-4">
-          <Link to="/shop">
-            <li className="hover:text-black hover:underline cursor-pointer duration-300">
+          <Link to="/shops">
+            <li className="hover:text-black hover:underline cursor-pointer duration-300 text-lg">
               חנויות
             </li>
           </Link>
           <Link to="/about">
-            <li className="hover:text-black hover:underline cursor-pointer duration-300">
+            <li className="hover:text-black hover:underline cursor-pointer duration-300 text-lg">
               אודות
             </li>
           </Link>
@@ -89,7 +89,7 @@ const Header = () => {
               alt="cartImg"
             />
             {productData.length > 0 && (
-              <span className="badge absolute -top-1 -right-1 w-6 h-6 flex items-center justify-center rounded-full bg-red-500 text-white">
+              <span className="badge absolute -top-1 -right-1 w-6 h-6 flex items-center justify-center rounded-full bg-red-500 text-white text-lg">
                 {productData.length}
               </span>
             )}
@@ -99,10 +99,10 @@ const Header = () => {
         {login && (
           <div className="flex items-center gap-2">
             <BiLogOut
-              className="hover:text-black hover:underline cursor-pointer duration-500"
+              className="hover:text-black hover:underline cursor-pointer duration-500 text-lg"
               onClick={handleButtonClick}
             />
-            <span className="text-sm font-light text-white">
+            <span className="text-lg font-light text-white">
               שלום {userName}
             </span>
           </div>
