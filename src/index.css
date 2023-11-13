@@ -128,7 +128,6 @@ body{
 }
 .eventsTable {
   width: 80%;
-  height: fit-content;
   border-radius: 0.5cm;
   border-color: green;
   background-color: rgb(87 121 91);
