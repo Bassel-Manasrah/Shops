@@ -53,14 +53,14 @@ const Header = () => {
   return (
     <div className="navbar w-full h-16 border-b-[1px] border-b-gray-800 sticky top-0 z-50 flex items-center justify-between px-4">
       <div className="flex items-center gap-4">
-        <Link to="/home">
+        <Link to="/shop">
           <img className="logo w-auto h-14" src={logo} alt="logo" />
         </Link>
 
         <ul className="flex items-center gap-4">
           <Link to="/shop">
             <li className="hover:text-black hover:underline cursor-pointer duration-300">
-              חנות
+              חנויות
             </li>
           </Link>
           <Link to="/about">

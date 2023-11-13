@@ -1,7 +1,6 @@
 import React from "react";
 import SignupPage from "./pages/SignupPage";
 import { UserAuthContextProvider } from "./context/UserAuthContext";
-import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import AboutPage from "./pages/AboutUs";
 import ForgotPage from "./pages/ForgotPage";
@@ -71,14 +70,10 @@ const router = createBrowserRouter([
           </UserAuthContextProvider>
         ),
       },
-      {
-        path: "/home",
-        element: <Home />,
-      },
 
       {
         path: "/",
-        element: <Home />,
+        element: <ShoppingPage />,
       },
       {
         path: "/cart",
