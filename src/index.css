@@ -9,10 +9,11 @@ body{
     user-select: none; /* Standard syntax */
 }
 .my-bg-color{
-    background-color: rgb(87 121 91);
+    background-color: rgb(58 108 135);
 }
 .my-pink-color{
-    background-color:  #fbae8afc;
+    background-color: rgb(121 174 83); /*f69494e6*/
+
 }
 
 .hover\:bg-green-me:hover {
@@ -50,8 +51,8 @@ body{
 
 
 .w-full{
-    background-color: rgb(87 121 91);
-    color: #fbae8afc; /*f69494e6*/
+    background-color: rgb(58 108 135);
+    color: rgb(121 174 83);
     font-weight: bold;
     font-size: xx-large;
     font-family: 'Noto Sans Hebrew', sans-serif;
@@ -62,7 +63,7 @@ body{
     font-size: x-large;
     font-family: 'Noto Sans Hebrew', sans-serif;
     display: flex;
-    color: #fbae8afc; /*f69494e6*/
+    color: rgb(121 174 83);
     -webkit-user-select: none; /* Safari */
     -ms-user-select: none; /* IE 10 and IE 11 */
     user-select: none; /* Standard syntax */
@@ -129,8 +130,8 @@ body{
 .eventsTable {
   width: 80%;
   border-radius: 0.5cm;
-  border-color: green;
-  background-color: rgb(87 121 91);
+  border-color: blue;
+  background-color: rgb(58 108 135);
   border-collapse: collapse;
   padding: 8px;
   text-align: center;
@@ -234,8 +235,8 @@ body{
     display: flex; /* Add display: flex */
     justify-content: space-between; /* Add justify-content: space-between */
     align-items: center; /* Add align-items: center */
-    background-color: rgb(87 121 91); /* Add background-color */
-    color: #fbae8afc; /* Add color */
+    background-color: rgb(58 108 135); /* Add background-color */
+    color: rgb(121 174 83);
   }
 
   .navbar ul {
@@ -248,7 +249,8 @@ body{
     width: 24px; /* Adjust the width as per your preference */
     height: 24px; /* Adjust the height as per your preference */
     text-align: center;
-    background-color: #fbae8afc; 
+    background-color: rgb(121 174 83);
+ 
     color: white; /* Add color */
     border-radius: 50%; /* Add border-radius to create a circular shape */
     position: absolute;

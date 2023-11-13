@@ -43,7 +43,7 @@
 
 .card .card-content .card-title{
     font-size: 38px;
-    color: rgba(87, 121, 91, 0.959);
+    color: rgb(121 174 83);
     margin-bottom: 5px;
     text-align: center;
     
@@ -79,7 +79,7 @@
 }
 
 .card .card-content .card-qunataty-container .card-increment {
-    color: rgba(87, 121, 91, 0.959);
+        color: rgb(121 174 83);
     
 }
 
@@ -116,7 +116,7 @@
 }
 
 .card .card-content .card-btn-green{
-    background-color: rgba(87, 121, 91, 0.959);
+    background-color: rgb(58 108 135);
 }
 
 .card .card-content .card-btn-red{

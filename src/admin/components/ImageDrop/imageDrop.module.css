@@ -7,7 +7,7 @@ img {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  background-color: cadetblue;
+  background-color: rgb(121 174 83);
   width: 50px;
   height: 50px;
   transition: 0.2s ease-in-out;
