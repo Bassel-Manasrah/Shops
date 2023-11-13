@@ -134,21 +134,6 @@ const Header = () => {
             <Link to="/about">
               <li className="hover:text-black hover:underline underline-offset-2 decoration-[1px] cursor-pointer duration-300">אודות</li>
             </Link>
-            <li
-              className="hover:text-black hover:underline underline-offset-2 decoration-[1px] cursor-pointer duration-300"
-              onClick={handleEventsClick2} // Add onClick event handler
-            >
-              מוצרים
-            </li>
-            <li
-              className="hover:text-black hover:underline underline-offset-2 decoration-[1px] cursor-pointer duration-300"
-              onClick={handleEventsClick1} // Add onClick event handler
-            >
-              אירועים
-            </li>
-            <Link to="/home">
-              <li className="hover:text-black hover:underline underline-offset-2 decoration-[1px] cursor-pointer duration-300">דף הבית</li>
-            </Link>
           </ul>
         </div>
         <Link to="/home">
