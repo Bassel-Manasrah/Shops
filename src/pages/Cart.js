@@ -58,11 +58,11 @@ const Cart = () => {
       try {
 
         const orders = await getDocs(ordersCollectionRef);
-        const filterEvents = orders.docs.map((doc) => {
+        const filterShops = orders.docs.map((doc) => {
             return doc.id ;
           })
 
-        return filterEvents.includes(str)
+        return filterShops.includes(str)
 
 
       } catch (error) {
