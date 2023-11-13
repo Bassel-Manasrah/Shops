@@ -19,7 +19,8 @@
   display: flex;
   gap: 16px;
   transition: 0.2s ease-in-out;
-  user-select: none;
+  -webkit-user-select: none; /* Safari and iOS Safari support */
+  user-select: none; /* Standard syntax */
   /* position: sticky; */
 }
 .selected {
