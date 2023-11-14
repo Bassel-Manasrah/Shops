@@ -15,7 +15,6 @@ body {
   border: 1px solid #000000;
   background-color: #f9f3f3;
   border-radius: 8px;
-  padding: 30px;
   top: 19%;
   left: calc(50% - 180px); /* Adjust the left position as needed */
   right: calc(50% - 180px); /* Adjust the right position as needed */
@@ -25,7 +24,6 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-size: xx-large;
 }
 
 .box h2 {
@@ -218,7 +216,8 @@ body {
 
 
 .mb-3 {
-  margin-bottom: 2rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .button-container{
@@ -259,13 +258,13 @@ body {
 }
 
 .forgetP{
-  height: 345px;
+  height: 371px;
 }
 
 .logIn{
-  height: 345px;
+  height: 371px;
 }
 
 .signUp{
-  height: 50px;
+  height: 10px;
 }
