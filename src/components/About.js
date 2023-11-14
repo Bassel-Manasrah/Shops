@@ -18,37 +18,26 @@ const About = () => {
      <div className="">
       <div className="con"  >
         <p>
-          "המזווה נועד לייצר אלטרנטיבה צרכנית ירושלמית - מאפשר צרכנות שלוקחת בחשבון שיקולים סביבתיים, חברתיים וכלכליים, תוך יצירת קולקטיב קהילתי ושותפויות"
+        ברוכים הבאים לקטניונת, קולקטיב צרכנות נבונה מבית בר קיימא - התנועה לקיימות עברית. 
         </p>
         <img src={myPhoto} alt="" className="profile-picture" />
         </div>
         <p className="intro" >
 
           
-         <strong> ברוכים/ות הבאות/ים למזווה! </strong>
+         <strong> מי לא רוצה לרכוש מוצרים איכותיים, ללא אריזות ובמחירים קטנים? </strong>
           <br />
           <br />
-        
-          <strong>מה זה "המזווה"</strong>
+          <strong><strong>הצטרפו אלינו לאירועים משמחים בכל רחבי הארץ!</strong></strong>
           <br />
           <br />
-          קולקטיב ירושלמי שמנגיש אורח חיים סביבתי, בריא, מקיים וקהילתי!
-          המזווה מקדם צרכנות חברתית מקומית בשאיפה לאפס פסולת.
+          <strong>מה זה "בר קיימא" ?</strong>
+          <br />
+          בר קיימא - התנועה לקיימות עברית, היא תנועת צעירים וצעירות שעוסקת בחיבור בין סביבה וקיימות למורשת ישראל ויהדות. בר קיימא עוסקת בקהילות, אורח חיים בר קיימא ומיזמים חינוכיים שמחברים בין מגזרים שונים. 
           <br />
           <br />
-          <strong>איך זה עובד</strong>
-          <br />
-          נפגשות אחת לכמה שבועות באירועים שונים בירושלים, בהן המזווה פותח חנות פופאפ למכירת קטניות ומוצרים יבשים.
-          באים מהבית עם כלים רב פעמיים ורוכשים במחיר חברתי ובמינימום פוסלת.
-          <br />
-          <br />
-          <strong>מי אנחנו?</strong>
-          <br />
-          אנחנו זה אתם/ן!
-          פעילות המזווה מבוססת על מתנדבים ומתנדבות שביחד מפעילות את הקולטקטיב.
-          מוזמנים/ות להיות חלק: לקנות יבשים / לתנדב באירועים / להיות חלק מהקהילה 💜
-          <br /><br />
-          <strong> על העמותות שמפעילות את המזווה</strong>
+          
+          <strong>עמותות שותפות</strong>
             <br/>
           <a  href="https://jsy.org.il/" target="_blank" rel="noopener noreferrer"   className="link-text rounded-sm group hover:text-black hover:no-underline underline-offset-2 decoration-[1px] cursor-pointer duration-500 underline">
             הישיבה החילונית
