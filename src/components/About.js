@@ -18,7 +18,9 @@ const About = () => {
      <div className="">
       <div className="con"  >
         <p>
-        ברוכים הבאים לקטניונת, קולקטיב צרכנות נבונה מבית בר קיימא - התנועה לקיימות עברית. 
+        <strong>
+                ברוכים הבאים לקטניונת, קולקטיב צרכנות נבונה מבית בר קיימא - התנועה לקיימות עברית. 
+        </strong>
         </p>
         <img src={myPhoto} alt="" className="profile-picture" />
         </div>
@@ -28,7 +30,7 @@ const About = () => {
          <strong> מי לא רוצה לרכוש מוצרים איכותיים, ללא אריזות ובמחירים קטנים? </strong>
           <br />
           <br />
-          <strong><strong>הצטרפו אלינו לאירועים משמחים בכל רחבי הארץ!</strong></strong>
+          <strong><strong style={{ color: "red" }}>הצטרפו אלינו לאירועים משמחים בכל רחבי הארץ!</strong></strong>
           <br />
           <br />
           <strong>מה זה "בר קיימא" ?</strong>

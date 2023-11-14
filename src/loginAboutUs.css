@@ -25,7 +25,7 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
-  
+  font-size: xx-large;
 }
 
 .box h2 {
@@ -60,7 +60,7 @@ body {
 
 
 .custom-box {
-  height: 350px; /* Adjust the height value of the box that contains about us text */
+  height: 500px; /* Adjust the height value of the box that contains about us text */
   width: 700px;
 }
 
@@ -114,10 +114,10 @@ body {
     border-radius: 10px;
     box-shadow: 1px 10px 3px rgba(0, 0, 0, 0.2);
     text-align: center;
-    font-size: 18px;
+    font-size: 23px;
     line-height: 1.6;
     background-color: #f9f3f3;
-    width: 700px;
+    width: 800px;
     height: max-content;
     padding: 2%;
     margin: 20px auto; /* Center horizontally with top and bottom margin of 20px */
@@ -125,7 +125,7 @@ body {
   
   @media screen and (max-width: 768px) {
     .con {
-      width: 90%;
+      width: 100%;
       margin-right: auto; /* Reset right margin to auto for centering */
       margin-left: auto; /* Reset left margin to auto for centering */
     }
@@ -169,7 +169,7 @@ body {
     border-radius: 10px;
     display: block;
     margin: 20px;
-    width: 300px;
+    width: 500px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   }
 
