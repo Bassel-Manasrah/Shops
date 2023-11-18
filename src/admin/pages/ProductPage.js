@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { productsColumns } from "../data/tableData";
 import SelectableTable from "../components/SelectableTable";
 import Table from "../components/Table";
-import { updateEvent, updateProduct } from "../services/firebase";
 import styles from "./ProductPage.module.css";
 import useFirestore from "../hooks/useFirstore";
 import { storage } from "../../firebase";
@@ -26,67 +25,38 @@ import { v4 } from "uuid";
 import DropDownV2 from "../components/DropDownV2";
 import CheckBox from "../components/CheckBox/CheckBox";
 import NewProductBannerV2 from "../components/NewProductBannerV2";
+import useProducts from "../hooks/useProducts";
+import useStores from "../hooks/useStores";
 
 export default function ProductPage() {
-  const [stores, addStore, updateStore, deleteStore] = useFirestore("stores");
+  const { stores, storesLoading } = useStores();
   const [selectedStoreID, setSelectedStoreID] = useState(null);
-
   const [productToDelete, setProductToDelete] = useState(null);
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
+  const selectedStore = stores?.find((store) => store.id === selectedStoreID);
 
-  const selectedStore = stores.find((store) => store.id === selectedStoreID);
+  const {
+    products,
+    loading: productsLoading,
+    addProduct,
+    updateProduct,
+    deleteProduct,
+  } = useProducts(selectedStoreID);
 
   const options = [
     { value: true, label: "גרמים" },
     { value: false, label: "יחידים" },
   ];
-
-  const addProduct = (product) => {
-    product = { ...product, id: v4() };
-    updateStore({
-      ...selectedStore,
-      products: [...selectedStore.products, product],
-    });
-  };
-
-  const deleteProduct = (productToDelete) => {
-    updateStore({
-      ...selectedStore,
-      products: selectedStore.products.filter(
-        (product) => product !== productToDelete
-      ),
-    });
-  };
-
   const updateProductImage = async (productID, productImage) => {
-    const imageRef = ref(storage, `${selectedStore.name}/${productID}`);
+    const imageRef = ref(storage, `productsImages/${productID}`);
     await uploadBytes(imageRef, productImage);
     const imageUrl = await getDownloadURL(imageRef);
     updateProduct(productID, { imageUrl });
   };
-
-  const updateProduct = (productID, modification) => {
-    const originalProduct = selectedStore.products.find(
-      (product) => product.id === productID
-    );
-    const updatedProduct = { ...originalProduct, ...modification };
-
-    updateStore({
-      ...selectedStore,
-      products: [
-        ...selectedStore.products.filter(
-          (product) => product !== originalProduct
-        ),
-        updatedProduct,
-      ],
-    });
-  };
-
   return (
     <div className={styles.container}>
       <h1 className="text-3xl mb-6 font-bold">מוצרים</h1>
       <div className={styles.header}>
-        {/* <NewProductBanner addProduct={addProduct} disabled={!selectedStore} /> */}
         <NewProductBannerV2 addProduct={addProduct} disabled={!selectedStore} />
       </div>
       <select
@@ -97,7 +67,7 @@ export default function ProductPage() {
         <option disabled selected className={styles.optionclass} value="">
           תבחר חנות
         </option>
-        {stores.map((store) => (
+        {stores?.map((store) => (
           <option className={styles.optionclass} value={store.id}>
             {store.name}
           </option>
@@ -118,7 +88,7 @@ export default function ProductPage() {
               <TableHeader>הסתר</TableHeader>
             </TableHead>
             <TableBody>
-              {selectedStore.products
+              {products
                 .sort((a, b) => b.price - a.price)
                 .map((product) => (
                   <Row>
@@ -131,32 +101,33 @@ export default function ProductPage() {
                       <RemoveCircleIcon style={{ color: "#d9534f" }} />
                     </IconButton>
                     <input
-                      value={product.name}
-                      onChange={(e) =>
+                      defaultValue={product.name}
+                      onChange={(e) => {
+                        e.target.value = e.target.value;
+                      }}
+                      onBlur={(e) =>
                         updateProduct(product.id, { name: e.target.value })
                       }
                     />
                     <input
-                      value={product.price}
-                      onChange={(e) =>
+                      defaultValue={product.price}
+                      onBlur={(e) =>
                         updateProduct(product.id, { price: e.target.value })
                       }
                     />
-
                     <input
-                      value={product.discount}
-                      onChange={(e) =>
+                      defaultValue={product.discount}
+                      onBlur={(e) =>
                         updateProduct(product.id, { discount: e.target.value })
                       }
                     />
-
                     <input
-                      value={product.quantity}
-                      onChange={(e) =>
+                      defaultValue={product.quantity}
+                      type="number"
+                      onBlur={(e) =>
                         updateProduct(product.id, { quantity: e.target.value })
                       }
                     />
-
                     <DropDownV2
                       options={options}
                       value={product.isGrams ? options[0] : options[1]}
@@ -164,17 +135,15 @@ export default function ProductPage() {
                         updateProduct(product.id, { isGrams: option.value })
                       }
                     />
-
                     <ImageDrop
                       imageStartUrl={product.imageUrl}
                       onChange={(newImage) =>
                         updateProductImage(product.id, newImage)
                       }
                     />
-
                     <input
-                      value={product.desc}
-                      onChange={(e) =>
+                      defaultValue={product.desc}
+                      onBlur={(e) =>
                         updateProduct(product.id, { desc: e.target.value })
                       }
                     />
@@ -208,7 +177,8 @@ export default function ProductPage() {
               </Button>
               <Button
                 onClick={() => {
-                  deleteProduct(productToDelete);
+                  console.log(productToDelete.name);
+                  deleteProduct(productToDelete.id);
                   setDeleteConfirmationOpen(false);
                 }}
                 style={{ color: "red" }}
