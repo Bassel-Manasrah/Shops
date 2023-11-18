@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import Sidenav from "./components/Sidenav";
 import AdminPage from "./pages/AdminPage";
 import ProductPage from "./pages/ProductPage";
+
 import {
   // eventsColumns,
   // flattenedOrdersColumns,
@@ -32,6 +33,7 @@ import EventPage from "./pages/EventPage";
 import Dashboard from "./pages/Dashboard";
 import { Static } from "./pages/static/static";
 import StoresPage from "./pages/StoresPage/StoresPage";
+import UsersPage from "./pages/UsersPage";
 
 function Admin() {
   return (
@@ -59,7 +61,8 @@ function Admin() {
               />
             }
           /> */}
-          <Route
+          <Route path="/users" element={<UsersPage />} />
+          {/* <Route
             path="/users"
             element={
               <AdminPage
@@ -72,7 +75,7 @@ function Admin() {
                 // updateObject={() => {}}
               />
             }
-          />
+          /> */}
           <Route path="/stats" element={<Static />} />
         </Routes>
       </div>
