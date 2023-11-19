@@ -58,6 +58,23 @@
     
 }
 
+/* Add these styles to your existing CSS file */
+.card-qunataty-container {
+    display: flex;
+    align-items: center; /* Center vertically */
+  }
+  
+  .card-quantity-input-container {
+    flex: 1; /* Take remaining space */
+    margin: 0 8px; /* Adjust margin as needed */
+  }
+  
+  .card-quantity-input {
+    width: 100%; /* Take full width */
+    text-align: center; /* Center horizontally */
+  }
+  
+
 .card .card-content .card-qunataty-container{
     display: flex;
     flex-direction: row;

@@ -80,7 +80,7 @@ export const Card = ({
           <p
             className="card-increment"
             onClick={() => {
-              quantity < 50 &&
+              quantity < 5000 &&
               isClicked === false &&
               isTrue === false
                 ? setQuantity(quantity + 1)
@@ -89,7 +89,20 @@ export const Card = ({
           >
             +
           </p>
-          <h2 className="card-title-quantaty">{quantity * howMuchToIncrease}</h2>
+          <div className="card-quantity-input-container">
+            <input
+              type="text"
+              className="card-quantity-input"
+              value={quantity * howMuchToIncrease}
+              onChange={(e) => {
+                // Handle manual input validation
+                const value = e.target.value.trim(); // Remove leading and trailing whitespaces
+                if (value === "" || (!isNaN(value) && value >= 0 && value <= 5000)) {
+                  setQuantity(value === "" || value === "0" ? 0 : parseFloat(value) / howMuchToIncrease);
+                }
+              }}
+            />
+          </div>
           <p
             className="card-decrease"
             onClick={() => {
