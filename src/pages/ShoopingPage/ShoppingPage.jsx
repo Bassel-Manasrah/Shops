@@ -134,35 +134,34 @@ export function ShoppingPage() {
 
   const addToListOfProduct = (selectProduct, addProduct) => {
     if (addProduct) {
-      // Add to cart
-      setListOfProduct((prevListOfProduct) => {
-        const newListOfProduct = [...prevListOfProduct, selectProduct];
-        dispatch(addToCart(selectProduct));
-        updateTotalPrice(newListOfProduct);
-        return newListOfProduct;
-      });
+      setTotalPrice(totalPrice + selectProduct.totalPrice);
+      dispatch(setPrice(totalPrice + selectProduct.totalPrice));
+
+      setListOfProduct((addListOfProduct) => [
+        ...addListOfProduct,
+        selectProduct,
+      ]);
+
+      dispatch(addToCart(selectProduct));
     } else {
-      // Remove from cart
-      setListOfProduct((prevListOfProduct) => {
-        const updatedListOfProduct = prevListOfProduct.filter(
-          (obj) => obj.idProduct !== selectProduct
+      let index = listOfProduct.findIndex(
+        (element) => element.idProduct === selectProduct
+      );
+
+      if (index !== -1) {
+        setTotalPrice(totalPrice - listOfProduct[index].totalPrice);
+        dispatch(setPrice(totalPrice - listOfProduct[index].totalPrice));
+
+        setListOfProduct((addListOfProduct) =>
+          addListOfProduct.filter(
+            (obj) => obj.idProduct !== selectProduct
+          )
         );
+
         dispatch(deleteItem(selectProduct));
-        updateTotalPrice(updatedListOfProduct);
-        return updatedListOfProduct;
-      });
+      }
     }
   };
-  
-  const updateTotalPrice = (updatedListOfProduct) => {
-    const newTotalPrice = updatedListOfProduct.reduce(
-      (total, product) => total + product.totalPrice,
-      0
-    );
-    setTotalPrice(newTotalPrice);
-    dispatch(setPrice(newTotalPrice));
-  };
-  
 
   const func = (product) => {
     for (let i = 0; i < listOfImg.length; i++) {
