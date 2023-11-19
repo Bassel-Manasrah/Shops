@@ -133,35 +133,30 @@ export function ShoppingPage() {
   }, []);
 
   const addToListOfProduct = (selectProduct, addProduct) => {
-    if (addProduct) {
-      setTotalPrice(totalPrice + selectProduct.totalPrice);
-      dispatch(setPrice(totalPrice + selectProduct.totalPrice));
-
-      setListOfProduct((addListOfProduct) => [
-        ...addListOfProduct,
-        selectProduct,
-      ]);
-
-      dispatch(addToCart(selectProduct));
-    } else {
-      let index = listOfProduct.findIndex(
-        (element) => element.idProduct === selectProduct
-      );
-
-      if (index !== -1) {
-        setTotalPrice(totalPrice - listOfProduct[index].totalPrice);
-        dispatch(setPrice(totalPrice - listOfProduct[index].totalPrice));
-
-        setListOfProduct((addListOfProduct) =>
-          addListOfProduct.filter(
-            (obj) => obj.idProduct !== selectProduct
-          )
+    setListOfProduct((prevListOfProduct) => {
+      if (addProduct) {
+        const newListOfProduct = [...prevListOfProduct, selectProduct];
+        dispatch(addToCart(selectProduct));
+        dispatch(setPrice(totalPrice + selectProduct.totalPrice));
+        setTotalPrice((prevTotalPrice) => prevTotalPrice + selectProduct.totalPrice);
+        return newListOfProduct;
+      } else {
+        const updatedListOfProduct = prevListOfProduct.filter(
+          (obj) => obj.idProduct !== selectProduct
         );
-
-        dispatch(deleteItem(selectProduct));
+        const index = prevListOfProduct.findIndex(
+          (element) => element.idProduct === selectProduct
+        );
+        if (index !== -1) {
+          dispatch(deleteItem(selectProduct));
+          dispatch(setPrice(totalPrice - prevListOfProduct[index].totalPrice));
+          setTotalPrice((prevTotalPrice) => prevTotalPrice - prevListOfProduct[index].totalPrice);
+        }
+        return updatedListOfProduct;
       }
-    }
+    });
   };
+  
 
   const func = (product) => {
     for (let i = 0; i < listOfImg.length; i++) {
