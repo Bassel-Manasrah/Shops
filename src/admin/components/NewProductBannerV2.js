@@ -124,7 +124,13 @@ export default function NewProductBannerV2({ addProduct, disabled }) {
       </Select>
 
       <FormControlLabel
-        control={<Checkbox {...register("isHide")} disabled={disabled} />}
+        control={
+          <Checkbox
+            {...register("isHide")}
+            disabled={disabled}
+            defaultValue={false}
+          />
+        }
         label="הסתר"
         className="flex-1 h-9"
       />
