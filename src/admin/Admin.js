@@ -44,7 +44,7 @@ function Admin() {
         <Routes>
           <Route path="/" element={<EventPage />} />
           <Route path="/events/" element={<EventPage />} />
-          <Route path="/shops/" element={<StoresPage />} />
+          <Route path="/stores/" element={<StoresPage />} />
           <Route path="/products" element={<ProductPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           {/* <Route

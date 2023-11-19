@@ -13,7 +13,7 @@ export const navData = [
     id: 0,
     icon: <LocalMallIcon />,
     text: "חנויות",
-    value: "shops",
+    value: "stores",
   },
   {
     id: 1,

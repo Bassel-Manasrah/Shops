@@ -11,7 +11,7 @@ import {
   addToCart,
   deleteItem,
   resetCart,
-  setSelectShop,
+  setSelectStore,
   setPrice,
 } from "../../redux/bazarSlice";
 import Header from "../../components/homePage/Header";
@@ -33,45 +33,45 @@ export function ShoppingPage() {
   const [totalPrice, setTotalPrice] = useState(0);
   const [listOfProduct, setListOfProduct] = useState([]);
   const [products, setProducts] = useState([]);
-  const [productsForSelectionShop, setProductsForSelectionShop] = useState([]);
-  const [shopName, setShopName] = useState([]);
-  const [selectedShop, setSelectedShop] = useState({});
+  const [productsForSelectionStore, setProductsForSelectionStore] = useState([]);
+  const [storeName, setStoreName] = useState([]);
+  const [selectedStore, setSelectedStore] = useState({});
   const [listOfImg, setListOfImg] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const shopsCollectionRef = collection(database, "shops");
+  const storesCollectionRef = collection(database, "stores");
   const productsCollectionRef = collection(database, "products");
   const imgRefrence = ref(storage, "productImages/");
 
   const getTheProduct = async () => {
-    if (shopName.length > 0) {
+    if (storeName.length > 0) {
       let ourProducts = [];
-      shopName[selectedShop["index"]]["products"].forEach(function (element) {
+      storeName[selectedStore["index"]]["products"].forEach(function (element) {
         products.forEach(function (elem) {
           if (element === elem["id"]) {
             ourProducts = [...ourProducts, elem];
           }
         });
       });
-      setProductsForSelectionShop(ourProducts);
+      setProductsForSelectionStore(ourProducts);
     }
   };
 
   useEffect(() => {
     getTheProduct();
-  }, [selectedShop]);
+  }, [selectedStore]);
 
-  let bazarSelectShop = useSelector((state) => state.bazar.selectShop);
+  let bazarSelectStore = useSelector((state) => state.bazar.selectStore);
 
   useEffect(() => {
-    const getShopList = async () => {
+    const getStoreList = async () => {
       try {
-        const shops = await getDocs(shopsCollectionRef);
-        const filterShops = shops.docs
+        const stores = await getDocs(storesCollectionRef);
+        const filterStores = stores.docs
           .map((doc) => ({ ...doc.data(), id: doc.id }))
           .filter((obj) => obj !== undefined);
 
-        filterShops.sort((a, b) => a["name"].localeCompare(b["name"]));
+        filterStores.sort((a, b) => a["name"].localeCompare(b["name"]));
 
         const products = await getDocs(productsCollectionRef);
         const filterProducts = products.docs.map((doc) => ({
@@ -81,31 +81,31 @@ export function ShoppingPage() {
 
         setProducts(filterProducts);
 
-        let listOfShops = filterShops.map((obj) => ({
+        let listOfStores = filterStores.map((obj) => ({
           name: obj.name,
           id: obj.id,
         }));
 
-        if (Object.keys(bazarSelectShop).length === 0) {
-          setSelectedShop({
-            name: listOfShops[0]["name"],
+        if (Object.keys(bazarSelectStore).length === 0) {
+          setSelectedStore({
+            name: listOfStores[0]["name"],
             test: "test",
-            id: listOfShops[0]["id"],
+            id: listOfStores[0]["id"],
             index: 0,
           });
           dispatch(
-            setSelectShop({
-              name: listOfShops[0]["name"],
+            setSelectStore({
+              name: listOfStores[0]["name"],
               test: "test",
-              id: listOfShops[0]["id"],
+              id: listOfStores[0]["id"],
               index: 0,
             })
           );
         } else {
-          setSelectedShop(bazarSelectShop);
+          setSelectedStore(bazarSelectStore);
         }
 
-        setShopName(filterShops);
+        setStoreName(filterStores);
 
         listAll(imgRefrence).then((response) => {
           response.items.forEach((img) => {
@@ -129,7 +129,7 @@ export function ShoppingPage() {
 
     if (dataFetchedRef.current) return;
     dataFetchedRef.current = true;
-    getShopList();
+    getStoreList();
   }, []);
 
   const addToListOfProduct = (selectProduct, addProduct) => {
@@ -171,10 +171,10 @@ export function ShoppingPage() {
     }
   };
 
-  const selectShop = (shop) => {
-    setSelectedShop(shop);
+  const selectStore = (store) => {
+    setSelectedStore(store);
     dispatch(resetCart());
-    dispatch(setSelectShop(shop));
+    dispatch(setSelectStore(store));
   };
 
   const updateTheTotal = (decrease) => {
@@ -191,15 +191,15 @@ export function ShoppingPage() {
           ) : (
             <>
               <Dropdown
-                shops={shopName.map((obj) => ({
+                stores={storeName.map((obj) => ({
                   name: obj.name,
                   id: obj.id,
                 }))}
-                setSelectedOption={selectShop}
-                selectedOption={selectedShop}
+                setSelectedOption={selectStore}
+                selectedOption={selectedStore}
               />
               <div className="ContainerOfCard">
-                {productsForSelectionShop.map((product, index) => {
+                {productsForSelectionStore.map((product, index) => {
                   let isTrue = false;
                   let quantity = 0;
                   if (bazarProduct.length > 0) {

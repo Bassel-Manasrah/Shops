@@ -58,11 +58,11 @@ const Cart = () => {
       try {
 
         const orders = await getDocs(ordersCollectionRef);
-        const filterShops = orders.docs.map((doc) => {
+        const filterStores = orders.docs.map((doc) => {
             return doc.id ;
           })
 
-        return filterShops.includes(str)
+        return filterStores.includes(str)
 
 
       } catch (error) {
@@ -287,7 +287,7 @@ const Cart = () => {
                     </p>
                   </div>
                   <div>
-                    <Link to="/shops">
+                    <Link to="/stores">
                       <button className="mt-8 ml-7 flex items-center gap-1 text-black hover:bg-red-500 duration-300 text-2xl">
                         <span>
                           <HiOutlineArrowRight />

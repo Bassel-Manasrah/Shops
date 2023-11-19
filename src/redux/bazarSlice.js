@@ -7,7 +7,7 @@ const initialState = {
   email: "",
   isAdmin: false,
   isLogin: false,
-  selectShop: {},
+  selectStore: {},
   userInfo: null,
   orderId: 0,
 };
@@ -76,8 +76,8 @@ export const bazarSlice = createSlice({
     setAdmin: (state, action) => {
       state.isAdmin = action.payload;
     },
-    setSelectShop: (state, action) => {
-      state.selectShop = action.payload;
+    setSelectStore: (state, action) => {
+      state.selectStore = action.payload;
     },
     setEmailf: (state, action) => {
       state.email = action.payload;
@@ -109,7 +109,7 @@ export const {
   setMember,
   setEmailf,
   setLogin,
-  setSelectShop,
+  setSelectStore,
   setPrice,
   decrementTotal,
   setAdmin,

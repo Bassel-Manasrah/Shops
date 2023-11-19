@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import "./dropDownMenue.css";
 
-export const Dropdown = ({ shops, setSelectedOption, selectedOption }) => {
+export const Dropdown = ({ stores, setSelectedOption, selectedOption }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -22,7 +22,7 @@ export const Dropdown = ({ shops, setSelectedOption, selectedOption }) => {
       </button>
       {isOpen && (
         <ul className="dropdown-menu">
-          {shops.map((option, index) => (
+          {stores.map((option, index) => (
             <li
               key={index}
               onClick={() =>
