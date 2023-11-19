@@ -74,7 +74,7 @@ export async function getStores() {
 }
 
 export async function getProducts() {
-  const imageListRef = ref(storage, "productImages/");
+  const imageListRef = ref(storage, "productsImages/");
 
   const list = await listAll(imageListRef);
 
@@ -179,7 +179,7 @@ export async function updateOrder(id, update) {
 
 export async function updateProduct(id, update) {
   if (update.image) {
-    const imageRef = ref(storage, `productImages/${id}`);
+    const imageRef = ref(storage, `productsImages/${id}`);
     uploadBytes(imageRef, update.image);
   } else {
     const docToUpdate = doc(db, "products", id);

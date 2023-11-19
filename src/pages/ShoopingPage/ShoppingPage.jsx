@@ -41,7 +41,7 @@ export function ShoppingPage() {
 
   const storesCollectionRef = collection(database, "stores");
   const productsCollectionRef = collection(database, "products");
-  const imgRefrence = ref(storage, "productImages/");
+  const imgRefrence = ref(storage, "productsImages/");
 
   const getTheProduct = async () => {
     if (storeName.length > 0) {
@@ -165,7 +165,7 @@ export function ShoppingPage() {
 
   const func = (product) => {
     for (let i = 0; i < listOfImg.length; i++) {
-      if ("productImages/" + product["id"] === listOfImg[i]["path"]) {
+      if ("productsImages/" + product["id"] === listOfImg[i]["path"]) {
         return listOfImg[i]["img"];
       }
     }
