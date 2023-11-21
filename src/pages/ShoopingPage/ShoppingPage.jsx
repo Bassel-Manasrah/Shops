@@ -203,10 +203,13 @@ export function ShoppingPage() {
                     );
                     if (check !== -1) {
                       isTrue = true;
-                      quantity =
-                        bazarProduct[check]["QuantityOfProduct"] / 100;
+                      quantity = bazarProduct[check]["QuantityOfProduct"] / 100;
                     }
                   }
+
+                  // Fetch isGrams from Firebase and set typeOfProduct accordingly
+                  const isGrams = product.isGrams; // Assuming isGrams is a field in your Firebase data
+
                   return (
                     <Card
                       id={product["id"]}
@@ -214,8 +217,9 @@ export function ShoppingPage() {
                       imageUrl={func(product)}
                       title={product["name"]}
                       price={product["price"]}
-                      howMuchToIncrease={100}
-                      typeOfProduct="גרם"
+                      desc={product["desc"]}
+                      howMuchToIncrease={isGrams ? 100 : 1}
+                      typeOfProduct={isGrams ? "גרם" : "יחידים"}
                       changeTheList={addToListOfProduct}
                       isClickMain={isTrue}
                       quantityMain={quantity}
@@ -230,20 +234,20 @@ export function ShoppingPage() {
         </>
       ) : (
         <>
-          <div
-            className="flex flex-col items-center mx-auto"
-            style={{
-              border: "none",
-              outline: "none",
-              width: "100%",
-              minHeight: "200px",
-              marginBottom: "171px",
-            }}
-          >
-            <p className="text-3xl mt-4 font-medium text-red-500">
-              אתה צריך להיכנס לחשבונך כדי לראות את החנות
-            </p>
-          </div>
+        <div
+          className="flex flex-col items-center mx-auto"
+          style={{
+            border: "none",
+            outline: "none",
+            width: "100%",
+            minHeight: "200px",
+            marginBottom: "171px",
+          }}
+        >
+          <p className="text-3xl mt-4 font-medium text-red-500">
+            אתה צריך להיכנס לחשבונך כדי לראות את החנות
+          </p>
+        </div>
           <HomeFooter />
         </>
       )}

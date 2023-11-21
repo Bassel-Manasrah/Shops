@@ -11,6 +11,7 @@ export const Card = ({
   imageUrl,
   title,
   price,
+  desc,
   howMuchToIncrease,
   typeOfProduct,
   changeTheList,
@@ -76,6 +77,7 @@ export const Card = ({
       <img src={imageUrl} alt="product" className="card-image" />
       <div className="card-content">
         <h2 className="card-title">{title} </h2>
+        <p className="card-description">{desc}</p>
         <div className="card-qunataty-container">
           <p
             className="card-increment"
