@@ -224,6 +224,7 @@ export function ShoppingPage() {
                       isClickMain={isTrue}
                       quantityMain={quantity}
                       funcToRemovePrice={updateTheTotal}
+                      isGrams={product["isGrams"]}
                     />
                   );
                 })}

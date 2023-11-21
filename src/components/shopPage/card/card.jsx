@@ -18,6 +18,7 @@ export const Card = ({
   isClickMain,
   quantityMain: quantityMain,
   funcToRemovePrice,
+  isGrams,
 }) => {
   const dispatch = useDispatch();
 
@@ -46,6 +47,7 @@ export const Card = ({
           PriceProduct: price,
           totalPrice: quantity * price,
           imagePath: imageUrl,
+          isGrams: isGrams,
         };
         setSelectProduct(NewSelectProduct);
       } else {

@@ -30,7 +30,7 @@ const CartItem = () => {
     setShowConfirmation(false);
     document.body.classList.remove("overflow-hidden");
   };
-
+  
   return (
     <div className="w-9/12 pr-10">
       <div className="w-full">
@@ -45,6 +45,7 @@ const CartItem = () => {
                 <div className="flex items-center gap-1">
                   <AiOutlineCloseSquare
                     onClick={() => dispatch(deleteItem(item.idProduct))}
+                    
                     className="text-xxl text-white hover:text-red-600 cursor-pointer duration-300"
                   />
                   <img
@@ -56,38 +57,38 @@ const CartItem = () => {
                 <h2 className="w-40">{item.nameOfProduct}</h2>
                 <p className="w-10">₪{item.PriceProduct}</p>
                 <div className="w-52 flex items-center justify-between text-white gap-4 border p-3">
-                  <p className="text-sm ">כַּמוּת ב- גרמים</p>
+                  <p className="text-sm">
+                    כַּמוּת ב-{item.isGrams ? "גרמים" : "יחידים"}
+                  </p>
                   <div className="flex items-center gap-4 text-sm font-semibold">
                     <span
-                      onClick={() => {
+                      onClick={() =>
                         dispatch(
                           decrementQuantity({
                             idProduct: item.idProduct,
                             nameOfProduct: item.nameOfProduct,
                             imagePath: item.imagePath,
                             price: item.PriceProduct,
-                            QuantityOfProduct: 100,
+                            QuantityOfProduct: item.isGrams ? 100 : 1,
                           })
-                        );
-                      }
+                        )
                       }
                       className="border h-5 font-normal text-lg flex items-center justify-center px-2 hover:bg-gray-700 hover:text-white cursor-pointer duration-300 active:bg-black"
                     >
                       -
-                      </span>
-                    {item.QuantityOfProduct}
+                    </span>
+                    {item.isGrams ? item.QuantityOfProduct: item.QuantityOfProduct/100}
                     <span
                       onClick={() =>
-                        {dispatch(
+                        dispatch(
                           increamentQuantity({
                             idProduct: item.idProduct,
                             nameOfProduct: item.nameOfProduct,
                             imagePath: item.imagePath,
                             PriceProduct: item.PriceProduct,
-                            QuantityOfProductantity: 100,
+                            QuantityOfProduct: item.isGrams ? 100 : 1,
                           })
-                        );
-                      }
+                        )
                       }
                       className="border h-5 font-normal text-lg flex items-center justify-center px-2 hover:bg-gray-700 hover:text-white cursor-pointer duration-300 active:bg-black"
                     >
@@ -96,7 +97,7 @@ const CartItem = () => {
                   </div>
                 </div>
                 <p className="w-18">
-                  ₪{(item.QuantityOfProduct * item.PriceProduct) / 100}
+                ₪{(item.QuantityOfProduct * item.PriceProduct) / 100}
                 </p>
               </div>
             ))}
@@ -144,6 +145,7 @@ const CartItem = () => {
       </Link>
     </div>
   );
+  
 };
 
 export default CartItem;
