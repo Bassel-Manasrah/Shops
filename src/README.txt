@@ -1,8 +1,7 @@
-Welcome to the productsStore wiki! Hamezaveh
+Welcome to the productsStore wiki! shops
 
 introduction to our project
 A brief description of the association
-The Hamezaveh is a sustainable consumer collective in Jerusalem. Every month They organise an event to Buy legumes by weight without polluting packaging, at cheap prices and in a good atmosphere.
 
 The purpose of the project
 In the event the staff spend a lot of time and energy dealing with the customer money transaction and order, that causes the event to feel unorganised and hard to manage. Therefore they are reaching to us to develop a technological (by website) solution that will solve their problems.

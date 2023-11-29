@@ -7,7 +7,6 @@ import { database } from "../firebase";
 
 export default function Complete() {
   const productData = useSelector((state) => state.bazar.productData);
-  const event = useSelector((state) => state.bazar.selectEvent);
   const total = useSelector((state) => state.bazar.total);
   const isMember = useSelector((state) => state.bazar.isMember);
   // const { OGCustomerID, OGPaymentID, OGExternalIdentifier } = useParams();
@@ -37,7 +36,7 @@ export default function Complete() {
       productName: prod.nameOfProduct,
     }));
 
-    const order = { products, eventDate: event.date, totalPaid: isMember ? (total * 0.7) : total ,isMember};
+    const order = { products, totalPaid: isMember ? (total * 0.7) : total ,isMember};
 
     await createOrder(order); // Wait for order creation to complete
 

@@ -1,9 +1,8 @@
 // Import the library
 import { useEffect, useState } from "react";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import "./card.css";
 import { useDispatch } from "react-redux";
-import { addToCart, deleteItem } from "../../../redux/bazarSlice";
+import { deleteItem } from "../../../redux/bazarSlice";
 
 // Main component to export
 export const Card = ({

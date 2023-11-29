@@ -194,7 +194,7 @@ export function ShoppingPage() {
                 selectedOption={selectedStore}
               />
               <div className="ContainerOfCard">
-                {productsForSelectionStore.map((product, index) => {
+                {productsForSelectionStore.map((product) => {
                   let isTrue = false;
                   let quantity = 0;
                   if (bazarProduct.length > 0) {

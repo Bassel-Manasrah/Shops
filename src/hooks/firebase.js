@@ -9,7 +9,6 @@ import {
 import { db, storage } from "../config/firebase";
 import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
 
-const eventsCollectionRef = collection(db, "events");
 const productsCollectionRef = collection(db, "products");
 const usersCollectionRef = collection(db, "users");
 const ordersCollectionRef = collection(db, "orders");
@@ -21,10 +20,6 @@ export async function createLocation(newLocation) {
   });
 }
 
-export async function createEvent(newEvent) {
-  const eventCollection = collection(db, "events");
-  await addDoc(eventCollection, newEvent);
-}
 
 export async function fetchLocations() {
   const locationCollection = collection(db, "locations");
@@ -34,20 +29,6 @@ export async function fetchLocations() {
     id: doc.id,
   }));
   return locationObjects.map((locationObject) => locationObject.value);
-}
-
-export async function getEvents() {
-  const data = await getDocs(eventsCollectionRef);
-  const filteredData = data.docs.map((doc) => {
-    const event = doc.data();
-
-    return {
-      ...event,
-      id: doc.id,
-    };
-  });
-
-  return filteredData;
 }
 
 export async function getProducts() {
@@ -108,25 +89,18 @@ export async function getOrders() {
   });
 
   const flattenedOrders = orders.flatMap((order) => {
-    const { id, firstName, lastName, products, eventDate, eventLocation } =
+    const { id, firstName, lastName, products,} =
       order;
     return products.map((product) => ({
       orderID: id,
       firstName,
       lastName,
-      eventDate,
-      eventLocation,
       paid: (product.quantity / 100) * product.productPrice,
       ...product,
     }));
   });
 
   return flattenedOrders;
-}
-
-export async function updateEvent(id, update) {
-  const docToUpdate = doc(db, "events", id);
-  await updateDoc(docToUpdate, update);
 }
 
 export async function updateUser(id, update) {
