@@ -30,10 +30,19 @@ export const bazarSlice = createSlice({
       const item = state.productData.find(
         (item) => item.idProduct === action.payload.idProduct
       );
-      if (item && item.QuantityOfProduct < item.availableQuantity) {
-        item.QuantityOfProduct += 100;
-        //console.log(typeof(action.payload.PriceProduct))
-        state.total += parseInt(action.payload.PriceProduct)
+      if(item.isGrams){
+        if (item && item.QuantityOfProduct < item.availableQuantity) {
+          item.QuantityOfProduct += 100;
+          //console.log(typeof(action.payload.PriceProduct))
+          state.total += parseInt(action.payload.PriceProduct)
+        }
+      }
+      else{
+        if (item && item.QuantityOfProduct < item.availableQuantity*100) {
+          item.QuantityOfProduct += 100;
+          //console.log(typeof(action.payload.PriceProduct))
+          state.total += parseInt(action.payload.PriceProduct)
+        }
       }
     },
     decrementQuantity: (state, action) => {
