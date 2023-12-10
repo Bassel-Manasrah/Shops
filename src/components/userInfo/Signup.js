@@ -13,6 +13,8 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [address, setAddress] = useState("");
+  const [idNumber, setIdNumber] = useState("");
   const [firstname, setFirstName] = useState("");
   const [lastname, setLastName] = useState("");
   const [password, setPassword] = useState("");
@@ -41,10 +43,19 @@ const Signup = () => {
     return true;
   };
 
+  const validateIdNumber = () => {
+    const idRegex = /^\d{9}$/;
+    if (!idRegex.test(idNumber)) {
+      setError("מספר תעודת הזהות חייב להכיל 9 ספרות בדיוק בלי אותיות.");
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    if (!validateFields() || !validatePhoneNumber()) {
+    if (!validateFields() || !validatePhoneNumber() || (idNumber && !validateIdNumber())) {
       return;
     }
     if (password.length < 10) {
@@ -59,6 +70,8 @@ const Signup = () => {
         lastname: lastname,
         email: email,
         phone: phoneNumber,
+        address: address,
+        idNumber: idNumber,
         isMember: false,
         isAdmin: false,
       };
@@ -112,6 +125,23 @@ const Signup = () => {
               required
               placeholder="מס טלפון"
               onChange={(e) => setPhoneNumber(e.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-2.5">
+            <Form.Control
+              type="text"
+              required
+              placeholder="כתובת"
+              onChange={(e) => setAddress(e.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-2.5">
+            <Form.Control
+              type="text"
+              placeholder="תעודת זהות (אופציונלי)"
+              onChange={(e) => setIdNumber(e.target.value)}
             />
           </Form.Group>
 
