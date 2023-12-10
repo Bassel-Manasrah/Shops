@@ -70,6 +70,8 @@ const CartItem = () => {
                             imagePath: item.imagePath,
                             price: item.PriceProduct,
                             QuantityOfProduct: item.isGrams ? 100 : 1,
+                            availableQuantity: item.availableQuantity,
+                            isGrams: item.isGrams,
                           })
                         )
                       }
@@ -87,6 +89,8 @@ const CartItem = () => {
                             imagePath: item.imagePath,
                             PriceProduct: item.PriceProduct,
                             QuantityOfProduct: item.isGrams ? 100 : 1,
+                            availableQuantity: item.availableQuantity,
+                            isGrams: item.isGrams,
                           })
                         )
                       }

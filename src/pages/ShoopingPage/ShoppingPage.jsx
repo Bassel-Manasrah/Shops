@@ -196,7 +196,7 @@ export function ShoppingPage() {
               <div className="ContainerOfCard">
                 {productsForSelectionStore.map((product) => {
                   let isTrue = false;
-                  let quantity = 0;
+                  let quantity = bazarProduct.quantity;
                   if (bazarProduct.length > 0) {
                     let check = bazarProduct.findIndex(
                       (item) => item.idProduct === product["id"]
@@ -225,6 +225,8 @@ export function ShoppingPage() {
                       quantityMain={quantity}
                       funcToRemovePrice={updateTheTotal}
                       isGrams={product["isGrams"]}
+                      availableQuantity={product["quantity"]}
+
                     />
                   );
                 })}

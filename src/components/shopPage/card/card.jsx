@@ -18,6 +18,7 @@ export const Card = ({
   quantityMain: quantityMain,
   funcToRemovePrice,
   isGrams,
+  availableQuantity,
 }) => {
   const dispatch = useDispatch();
 
@@ -47,6 +48,7 @@ export const Card = ({
           totalPrice: quantity * price,
           imagePath: imageUrl,
           isGrams: isGrams,
+          availableQuantity: availableQuantity,
         };
         setSelectProduct(NewSelectProduct);
       } else {
@@ -62,10 +64,22 @@ export const Card = ({
         dispatch(deleteItem(id));
         funcToRemovePrice(quantity * price);
       } else {
-        setIsClicked(!isClicked);
+        // Check if there is enough quantity available before adding to the cart
+        if (quantity * howMuchToIncrease <= availableQuantity) {
+          setIsClicked(!isClicked);
+        } else {
+          // Show a message or handle the case where there is not enough quantity available
+          if(isGrams){
+            alert(`יש רק ${availableQuantity} גרמים במלאי`);
+          }
+          else{
+            alert(`יש רק ${availableQuantity} יחידים במלאי`);
+          }
+        }
       }
     }
   }
+  
 
   useEffect(() => {
     if (isClickMain) {
@@ -83,7 +97,7 @@ export const Card = ({
           <p
             className="card-increment"
             onClick={() => {
-              quantity < 5000 &&
+              quantity < availableQuantity &&
               isClicked === false &&
               isTrue === false
                 ? setQuantity(quantity + 1)
@@ -100,7 +114,7 @@ export const Card = ({
               onChange={(e) => {
                 // Handle manual input validation
                 const value = e.target.value.trim(); // Remove leading and trailing whitespaces
-                if (value === "" || (!isNaN(value) && value >= 0 && value <= 5000)) {
+                if (value === "" || (!isNaN(value) && value >= 0 )) {
                   setQuantity(value === "" || value === "0" ? 0 : parseFloat(value) / howMuchToIncrease);
                 }
               }}

@@ -74,11 +74,6 @@ const Cart = () => {
     generateUniqueString();
     
   }, []);
-
-  
-
-  
-
   
   useEffect(() => {
     setLogin(login);
