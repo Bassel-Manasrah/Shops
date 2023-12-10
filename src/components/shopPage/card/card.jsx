@@ -114,12 +114,14 @@ export const Card = ({
               onChange={(e) => {
                 // Handle manual input validation
                 const value = e.target.value.trim(); // Remove leading and trailing whitespaces
-                if (value === "" || (!isNaN(value) && value >= 0 )) {
+                if (value === "" || (!isNaN(value) && Number.isInteger(parseFloat(value)) && parseFloat(value) >= 0)) {
                   setQuantity(value === "" || value === "0" ? 0 : parseFloat(value) / howMuchToIncrease);
                 }
               }}
+              disabled={availableQuantity === 0}
             />
           </div>
+
           <p
             className="card-decrease"
             onClick={() => {
@@ -136,11 +138,10 @@ export const Card = ({
         </h2>
         <button
           className={
-            isClicked || isTrue
-              ? "card-btn card-btn-red"
-              : "card-btn card-btn-green"
+            (isClicked || isTrue) ? "card-btn card-btn-red" : "card-btn card-btn-green"
           }
           onClick={handleClick}
+          disabled={availableQuantity === 0}
         >
           {isClicked || isTrue ? "הסרה מהסל" : "הוספה לסל"}
         </button>

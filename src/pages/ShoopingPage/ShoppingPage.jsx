@@ -209,15 +209,15 @@ export function ShoppingPage() {
 
                   // Fetch isGrams from Firebase and set typeOfProduct accordingly
                   const isGrams = product.isGrams; // Assuming isGrams is a field in your Firebase data
-
-                  return (
+                  //if(product.quantity>0){
+                    return (
                     <Card
                       id={product["id"]}
                       key={product["id"]}
                       imageUrl={func(product)}
                       title={product["name"]}
                       price={product["price"]}
-                      desc={product["desc"]}
+                      desc={product.quantity !== 0 ? product["desc"] : <span style={{ color: 'red' }}>אזל מהמלאי</span>}
                       howMuchToIncrease={isGrams ? 100 : 1}
                       typeOfProduct={isGrams ? "גרם" : "יחידים"}
                       changeTheList={addToListOfProduct}
@@ -229,6 +229,7 @@ export function ShoppingPage() {
 
                     />
                   );
+                  //} 
                 })}
               </div>
               <Footer getPrice={totalPrice} />
