@@ -1,15 +1,45 @@
+import Button from "./Button";
 import { useTable } from "react-table";
 import styled from "styled-components";
+import downloadWorkbook from "../excelUtils/downloadWorkbook";
 
-export default function AdvancedTable({ data, selectedData = [], columns }) {
+export default function AdvancedTable({
+  data,
+  selectedData = [],
+  columns,
+  hasExport,
+}) {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
       data,
     });
 
+  const exportClickHandler = () => {
+    const modifiedColumns = columns.map((col) => ({
+      header: col.Header,
+      key: col.accessor,
+    }));
+    downloadWorkbook({
+      data: data,
+      columns: modifiedColumns,
+      filename: "file",
+    });
+  };
+
   return (
     <>
+      {hasExport && (
+        <Button
+          onClick={exportClickHandler}
+          width="100%"
+          color="green"
+          padding="0px"
+        >
+          export
+        </Button>
+      )}
+
       <Table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (

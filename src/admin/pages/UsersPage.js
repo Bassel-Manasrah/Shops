@@ -49,7 +49,7 @@ export default function UsersPage() {
       <PageTitle>לקוחות</PageTitle>
       <FlexContainer>
         <TableContainer>
-          <AdvancedTable data={users} columns={columns} />
+          <AdvancedTable data={users} columns={columns} hasExport={true} />
         </TableContainer>
       </FlexContainer>
     </PageContainer>

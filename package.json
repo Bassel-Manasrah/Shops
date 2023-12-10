@@ -13,6 +13,7 @@
     "axios": "^1.4.0",
     "chakra": "^0.0.3",
     "chartjs": "^0.3.24",
+    "exceljs": "^4.4.0",
     "file-saver": "^2.0.5",
     "firebase": "^9.22.1",
     "html2canvas": "^1.4.1",

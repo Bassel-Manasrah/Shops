@@ -70,6 +70,7 @@ export default function Dashboard() {
             data={orders}
             selectedData={[selectedOrder]}
             columns={columns}
+            hasExport={true}
           />
         </TableContainer>
         {selectedOrder && (
