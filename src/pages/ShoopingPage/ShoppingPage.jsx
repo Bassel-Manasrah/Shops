@@ -209,7 +209,7 @@ export function ShoppingPage() {
 
                   // Fetch isGrams from Firebase and set typeOfProduct accordingly
                   const isGrams = product.isGrams; // Assuming isGrams is a field in your Firebase data
-                  //if(product.quantity>0){
+                  if(!product.isHide){
                     return (
                     <Card
                       id={product["id"]}
@@ -229,7 +229,7 @@ export function ShoppingPage() {
 
                     />
                   );
-                  //} 
+                  } 
                 })}
               </div>
               <Footer getPrice={totalPrice} />
