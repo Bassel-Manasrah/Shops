@@ -245,7 +245,7 @@ export function ShoppingPage() {
             outline: "none",
             width: "100%",
             minHeight: "200px",
-            marginBottom: "171px",
+            marginBottom: "235px",
           }}
         >
           <p className="text-3xl mt-4 font-medium text-red-500">

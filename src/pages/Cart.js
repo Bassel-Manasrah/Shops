@@ -269,7 +269,7 @@ const Cart = () => {
               </>
             ) : (
               <>
-                <div className="flex flex-col items-center mx-auto">
+                <div className="flex flex-col items-center mx-auto h-auto">
                   <div className="w-full text-center">
                     <p className="text-3xl mt-4 font-medium text-white">
                       העגלה שלך ריקה!!
@@ -304,11 +304,11 @@ const Cart = () => {
             outline: "none",
             width: "100%",
             minHeight: "200px",
-            marginBottom: "171px",
+            marginBottom: "235px",
           }}
         >
           <p className="text-3xl mt-4 font-medium text-red-500">
-            אתה צריך להיכנס לחשבונך כדי לראות את סל הקניות
+            אתה צריך להיכנס לחשבונך כדי לעבור לסל הקניות
           </p>
         </div>
       )}

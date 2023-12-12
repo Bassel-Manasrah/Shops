@@ -88,11 +88,11 @@ const Signup = () => {
 
   return (
     <>
-      <div className="p-4 box">
-        <h2 className="mb-2.5">הרשמה</h2>
+      <div className="box">
+        <h2 className="mb-1.5">הרשמה</h2>
         <div className={error ? "error-message" : "normal-message"}>{error}</div>
         <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-2.5">
+          <Form.Group className="mb-1.5">
             <Form.Control
               type="text"
               required
@@ -101,7 +101,7 @@ const Signup = () => {
             />
           </Form.Group>
 
-          <Form.Group className="mb-2.5" controlId="formBasicPassword">
+          <Form.Group className="mb-1.5" controlId="formBasicPassword">
             <Form.Control
               type="text"
               required
@@ -110,7 +110,7 @@ const Signup = () => {
             />
           </Form.Group>
 
-          <Form.Group className="mb-2.5" controlId="formBasicPassword">
+          <Form.Group className="mb-1.5" controlId="formBasicPassword">
             <Form.Control
               type="password"
               required
@@ -119,7 +119,7 @@ const Signup = () => {
             />
           </Form.Group>
 
-          <Form.Group className="mb-2.5">
+          <Form.Group className="mb-1.5">
             <Form.Control
               type="tel"
               required
@@ -128,7 +128,7 @@ const Signup = () => {
             />
           </Form.Group>
 
-          <Form.Group className="mb-2.5">
+          <Form.Group className="mb-1.5">
             <Form.Control
               type="text"
               required
@@ -137,7 +137,7 @@ const Signup = () => {
             />
           </Form.Group>
 
-          <Form.Group className="mb-2.5">
+          <Form.Group className="mb-1.5">
             <Form.Control
               type="text"
               placeholder="תעודת זהות (אופציונלי)"
@@ -145,7 +145,7 @@ const Signup = () => {
             />
           </Form.Group>
 
-          <Form.Group className="mb-2.5" controlId="formBasicEmail">
+          <Form.Group className="mb-1.5" controlId="formBasicEmail">
             <Form.Control
               type="Email"
               required
