@@ -1,15 +1,16 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { collection, doc, setDoc } from "firebase/firestore";
+import { collection, doc, setDoc, getDoc } from "firebase/firestore";
 import { resetCart } from "../redux/bazarSlice";
-import { database } from "../firebase";
+import { auth, database } from "../firebase";
 
 export default function Complete() {
   const productData = useSelector((state) => state.bazar.productData);
   const total = useSelector((state) => state.bazar.total);
   const isMember = useSelector((state) => state.bazar.isMember);
-  // const { OGCustomerID, OGPaymentID, OGExternalIdentifier } = useParams();
+  const userInfo = useSelector((state) => state.bazar.userInfo);
+  const email = useSelector((state) => state.bazar.email);
   const orderId = useSelector((state) => state.bazar.orderId);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -29,57 +30,63 @@ export default function Complete() {
     handleComplete(); // Call handleComplete within useEffect
   }, [dispatch]);
 
+  const updateProductQuantity = async (productId, quantity, isGrams) => {
+    const productDocRef = doc(collection(database, "products"), productId);
+    const productDoc = await getDoc(productDocRef);
+
+    if (productDoc.exists) {
+      const currentQuantity = productDoc.data().quantity;
+      const updatedQuantity = currentQuantity - quantity;
+
+      // Update the quantity in the "products" collection
+      await setDoc(productDocRef, { quantity: updatedQuantity }, { merge: true });
+    } else {
+      console.error(`Product with ID ${productId} not found.`);
+    }
+  };
+
   const handleComplete = async () => {
     const products = productData.map((prod) => ({
-      quantity: prod.QuantityOfProduct,
-      productPrice: prod.PriceProduct,
-      productName: prod.nameOfProduct,
+      quantity: prod.isGrams ? prod.QuantityOfProduct : prod.QuantityOfProduct / 100,
+      price: prod.PriceProduct,
+      name: prod.nameOfProduct,
+      id: prod.idProduct, // Add product ID
+      isGrams: prod.isGrams, // Add isGrams property
     }));
+  
+    const { firstName, lastName, phoneNumber, address } = userInfo;
+    const isDone = false;
 
-    const order = { products, totalPaid: isMember ? (total * 0.7) : total ,isMember};
+    const order = {
+      products,
+      payment: total.toFixed(2),
+      isMember,
+      email,
+      orderId,
+      firstName,
+      lastName,
+      phoneNumber,
+      address,
+      isDone,
+    };
+
+    // Update product quantities in the "products" collection
+    await Promise.all(
+      products.map(async (prod) => {
+        await updateProductQuantity(prod.id, prod.quantity, prod.isGrams);
+      })
+    );
 
     await createOrder(order); // Wait for order creation to complete
-
+  
     navigate("/");
   };
 
   const createOrder = async (newOrder) => {
-    // console.log(newOrder);
     const orderCollection = collection(database, "orders");
-    const docRef = doc(orderCollection, orderId); // Specify the document ID as "123"
-    await setDoc(docRef, newOrder); // Use setDoc to add the order with the specified ID
-    // console.log("Document ID:", docRef.id);
+    const docRef = doc(orderCollection, orderId);
+    await setDoc(docRef, newOrder);
   };
 
   return null; // or render a loading/spinner component
 }
-
-// function sendSMS(a) {
-//   const url = "https://app.sumit.co.il/sms/sms/send/";
-//   const body = {
-//     Credentials: {
-//       CompanyID: 61294932,
-//       APIKey: "Gy2gopJM25FoBIRImOQCyUgJO5gp6ONTNwskd4TynjKPjKkTTb",
-//     },
-//     Recipient: "string",
-//     Text: "string",
-//     SaveDraft: true,
-//     Sender: "string",
-//   };
-
-//   fetch(url, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(body),
-//   })
-//     .then((response) => response.json())
-//     .then((data) => {
-//       const redirectUrl = data.Data.RedirectURL;
-//       window.open(redirectUrl, "http://localhost:3000/home");
-//     })
-//     .catch((error) => {
-//       console.error("Error:", error);
-//     });
-// }
