@@ -61,7 +61,7 @@ export const bazarSlice = createSlice({
     decrementQuantity: (state, action) => {
       const { idProduct, discount ,isMember} = action.payload;
       const item = state.productData.find((item) => item.idProduct === idProduct);
-      console.log(isMember);
+      //console.log(isMember);
       if (item && item.QuantityOfProduct) {
         if (item.QuantityOfProduct === 100) {
           item.QuantityOfProduct = 100;

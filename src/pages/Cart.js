@@ -20,6 +20,7 @@ const Cart = () => {
   const userEmail = useSelector((state) => state.bazar.email);
   let login = useSelector((state) => state.bazar.isLogin);
   let member = useSelector((state) => state.bazar.isMember);
+  const userInfo = useSelector((state) => state.bazar.userInfo);
   const isLogin = useSelector((state) => state.bazar.isLogin); // Access isLogin from the bazar slice
   const [orderId,setOrderId1] = useState("");
 
@@ -88,7 +89,7 @@ const Cart = () => {
           const userDoc = querySnapshot.docs[0];
           const userData = userDoc.data();
           //console.log(userData.name)
-          setUserName(userData.firstname);
+          setUserName(userData.firstname+" "+userData.lastname);
         }
       };
 
@@ -139,10 +140,12 @@ const Cart = () => {
 
 
   
-  // console.log(userName)
+  //console.log(userName)
   // console.log({userName})
+  //console.log(userInfo.phoneNumber);
+
   function pay(a) {
-    const finalTotalAmt = isMember ? totalAmt - totalAmt * 0.3 : totalAmt;
+    const finalTotalAmt = totalAmt;
     const url = "https://app.sumit.co.il/billing/payments/beginredirect/";
     const body = {
       Customer: {
@@ -153,7 +156,7 @@ const Cart = () => {
         Phone: Phone,
         EmailAddress: userEmail,
         City: null,
-        Address: null,
+        Address: userInfo.address,
         ZipCode: null,
         CompanyNumber: null,
         ID: null,
@@ -182,7 +185,7 @@ const Cart = () => {
       VATIncluded: true,
       DocumentType: null,
       RedirectURL: "http://localhost:3000/complete",
-      CancelRedirectURL: null,
+      CancelRedirectURL: "http://localhost:3000/cart",
       ExternalIdentifier: null,
       MaximumPayments: null,
       SendUpdateByEmailAddress: null,
@@ -224,7 +227,7 @@ const Cart = () => {
         console.error("Error:", error);
       });
   }
-
+  //console.log(productData);
   return (
     <>
       <Header />
