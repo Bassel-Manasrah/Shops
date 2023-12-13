@@ -23,7 +23,8 @@ export default function Complete() {
     dispatch(resetCart()); // Dispatch resetCart action
 
     if (!OGCustomerID || !OGPaymentID) {
-      navigate("/cart");
+      navigate("/cart", { replace: true });
+
       return;
     }
 
@@ -79,7 +80,7 @@ export default function Complete() {
 
     await createOrder(order); // Wait for order creation to complete
   
-    navigate("/");
+    navigate("/", { replace: true });
   };
 
   const createOrder = async (newOrder) => {

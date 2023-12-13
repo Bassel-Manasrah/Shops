@@ -219,9 +219,10 @@ const Cart = () => {
         // console.log(data);
         const redirectUrl = data.Data.RedirectURL;
         //console.log(redirectUrl);
-        window.open(redirectUrl);
+        window.location.href = redirectUrl;
         // dispatch(resetCart()); // Dispatch resetCart action
-        window.close(); // Close the current tab
+        // window.close(); // Close the current tab
+        window.location.href = redirectUrl; // Open the payment URL in the same tab
       })
       .catch((error) => {
         console.error("Error:", error);
