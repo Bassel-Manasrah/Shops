@@ -19,6 +19,8 @@ export const Card = ({
   funcToRemovePrice,
   isGrams,
   availableQuantity,
+  discount,
+  isMember,
 }) => {
   const dispatch = useDispatch();
 
@@ -45,10 +47,14 @@ export const Card = ({
           nameOfProduct: title,
           QuantityOfProduct: quantity * 100,
           PriceProduct: price,
-          totalPrice: quantity * price,
+          totalPrice: isMember
+          ? +(quantity * price * (1 - discount / 100)).toFixed(2)
+          : +(quantity * price).toFixed(2),
           imagePath: imageUrl,
           isGrams: isGrams,
           availableQuantity: availableQuantity,
+          discount: discount,
+          isMember: isMember,
         };
         setSelectProduct(NewSelectProduct);
       } else {
@@ -62,6 +68,9 @@ export const Card = ({
       if (isTrue) {
         setIsTrue(false);
         dispatch(deleteItem(id));
+        price = isMember
+        ? +(price * (1 - discount / 100)).toFixed(2)
+        : price;
         funcToRemovePrice(quantity * price);
       } else {
         // Check if there is enough quantity available before adding to the cart
@@ -121,7 +130,7 @@ export const Card = ({
               disabled={availableQuantity === 0}
             />
           </div>
-
+          
           <p
             className="card-decrease"
             onClick={() => {
@@ -133,6 +142,9 @@ export const Card = ({
             -
           </p>
         </div>
+        <p style={{ color: 'red' }}>
+          {isMember && discount !== 0 && discount !== null && availableQuantity!=0? "הנחת חבר מעודון " + discount + "%" : null}
+        </p>
         <h2 className="card-title-price">
           {price} ש"ח ל {howMuchToIncrease} {typeOfProduct}
         </h2>

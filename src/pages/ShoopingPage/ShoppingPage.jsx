@@ -38,7 +38,7 @@ export function ShoppingPage() {
   const [selectedStore, setSelectedStore] = useState({});
   const [listOfImg, setListOfImg] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
+  const [isMember, setIsMember] = useState(false);
   const storesCollectionRef = collection(database, "stores");
   const productsCollectionRef = collection(database, "products");
   const imgRefrence = ref(storage, "productsImages/");
@@ -62,6 +62,11 @@ export function ShoppingPage() {
   }, [selectedStore]);
 
   let bazarSelectStore = useSelector((state) => state.bazar.selectStore);
+  let member = useSelector((state) => state.bazar.isMember);
+
+  useEffect(() => {
+    setIsMember(member);
+  }, [member]);
 
   useEffect(() => {
     const getStoreList = async () => {
@@ -226,13 +231,14 @@ export function ShoppingPage() {
                       funcToRemovePrice={updateTheTotal}
                       isGrams={product["isGrams"]}
                       availableQuantity={product["quantity"]}
-
+                      discount={product["discount"]}
+                      isMember={isMember}
                     />
                   );
                   } 
                 })}
               </div>
-              <Footer getPrice={totalPrice} />
+              <Footer getPrice={totalPrice < 0 ? 0 : totalPrice} />
             </>
           )}
         </>
