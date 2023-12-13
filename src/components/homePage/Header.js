@@ -3,7 +3,7 @@ import { BiLogOut } from "react-icons/bi";
 import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { resetCart, setLogin } from "../../redux/bazarSlice";
+import { setUserInfo, resetCart, setLogin } from "../../redux/bazarSlice";
 import { signOut } from "firebase/auth";
 import { auth, database } from "../../firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
@@ -33,23 +33,34 @@ const Header = () => {
 
   useEffect(() => {
     setIsLogin(login);
-
+  
     if (login && userEmail) {
-      const fetchUserName = async () => {
+      const fetchUserInformation = async () => {
         const usersCollectionRef = collection(database, "users");
         const q = query(usersCollectionRef, where("email", "==", userEmail));
         const querySnapshot = await getDocs(q);
+  
         if (querySnapshot.size > 0) {
           const userDoc = querySnapshot.docs[0];
           const userData = userDoc.data();
+  
+          // Dispatch the setUserInfo action to update the Redux store
+          dispatch(setUserInfo({
+            firstName: userData.firstname,
+            lastName: userData.lastname,
+            phoneNumber: userData.phone,
+            address:userData.address,
+          }));
+          
+          // Set the user name using local state
           setUserName(userData.firstname);
         }
       };
-
-      fetchUserName();
+  
+      fetchUserInformation();
     }
-  }, [login, userEmail]);
-
+  }, [login, userEmail, dispatch]);
+  
   return (
     <div className="navbar w-full h-28 border-b-[1px] border-b-gray-800 sticky top-0 z-50 flex items-center justify-between px-4">
       <div className="flex items-center">
