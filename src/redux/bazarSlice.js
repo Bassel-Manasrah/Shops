@@ -8,7 +8,12 @@ const initialState = {
   isAdmin: false,
   isLogin: false,
   selectStore: {},
-  userInfo: null,
+  userInfo: {
+    firstName: "",
+    lastName: "",
+    address: "",
+    phoneNumber: "",
+  },
   orderId: 0,
 };
 
@@ -122,6 +127,9 @@ export const bazarSlice = createSlice({
     incrementTotal: (state, action) => {
       state.total += parseInt(action.payload);
     },
+    setUserInfo: (state, action) => {
+      state.userInfo = action.payload;
+    },
   },
 });
 
@@ -131,6 +139,10 @@ export const deleteItem = (idProduct, discount) => ({
   payload: { idProduct, discount },
 });
 
+export const setUserInfo = (userInfo) => ({
+  type: 'bazar/setUserInfo',
+  payload: userInfo,
+});
 
 export const {
   addToCart,
