@@ -14,6 +14,7 @@ const CartItem = () => {
   const dispatch = useDispatch();
   const productData = useSelector((state) => state.bazar.productData);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const isMember = useSelector((state) => state.bazar.isMember);
 
   const handleResetCart = () => {
     setShowConfirmation(true);
@@ -34,19 +35,19 @@ const CartItem = () => {
   return (
     <div className="w-9/12 pr-10">
       <div className="w-full">
-        <h2 className="hebrewTexts text-2xl">סל קניות</h2>
+        <h2 className="hebrewTexts text-base">סל קניות</h2>
         <div>
           <div>
             {productData.map((item) => (
               <div
                 key={item.idProduct}
-                className="flex flex-col md:flex-row items-center justify-between gap-6 mt-6"
+                className="flex flex-col md:flex-row items-center justify-between gap-2 mt-2"
               >
                 <div className="flex items-center gap-1">
                   <AiOutlineCloseSquare
-                    onClick={() => dispatch(deleteItem(item.idProduct))}
-                    
-                    className="text-xxl text-white hover:text-red-600 cursor-pointer duration-300"
+                    // In your component
+                    onClick={() => dispatch(deleteItem(item.idProduct, item.discount))}
+                    className="text-2xl text-white hover:text-red-600 cursor-pointer duration-300"
                   />
                   <img
                     className="w-32 h-32 object-cover"
@@ -55,8 +56,19 @@ const CartItem = () => {
                   />
                 </div>
                 <h2 className="w-40">{item.nameOfProduct}</h2>
-                <p className="w-10">₪{item.PriceProduct}</p>
-                <div className="w-52 flex items-center justify-between text-white gap-4 border p-3">
+                <p className="w-30">
+                  {isMember ? (
+                    <>
+                      <span style={{textDecoration: 'line-through',color: 'lightgrey', marginRight: '5px' }}>
+                        ₪{item.PriceProduct}
+                      </span>
+                      ₪{(item.PriceProduct * (1 - item.discount / 100)).toFixed(2)}
+                    </>
+                  ) : (
+                    `₪${item.PriceProduct}`
+                  )}
+                </p> 
+               <div className="w-52 flex items-center justify-between text-white gap-4 border p-3">
                   <p className="text-sm">
                     כַּמוּת ב-{item.isGrams ? "גרמים" : "יחידים"}
                   </p>
@@ -72,6 +84,8 @@ const CartItem = () => {
                             QuantityOfProduct: item.isGrams ? 100 : 1,
                             availableQuantity: item.availableQuantity,
                             isGrams: item.isGrams,
+                            discount: item.discount,
+                            isMember: isMember,
                           })
                         )
                       }
@@ -91,6 +105,8 @@ const CartItem = () => {
                             QuantityOfProduct: item.isGrams ? 100 : 1,
                             availableQuantity: item.availableQuantity,
                             isGrams: item.isGrams,
+                            discount: item.discount,
+                            isMember: isMember,
                           })
                         )
                       }
@@ -101,7 +117,11 @@ const CartItem = () => {
                   </div>
                 </div>
                 <p className="w-18">
-                ₪{(item.QuantityOfProduct * item.PriceProduct) / 100}
+                  {isMember ? (
+                    `₪${((item.QuantityOfProduct * item.PriceProduct * (1 - item.discount / 100)) / 100).toFixed(2)}`
+                  ) : (
+                    `₪${(item.QuantityOfProduct * item.PriceProduct) / 100}`
+                  )}
                 </p>
               </div>
             ))}

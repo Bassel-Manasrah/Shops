@@ -119,11 +119,19 @@ const Cart = () => {
 
   useEffect(() => {
     let totalPrice = 0;
+  
     productData.forEach((item) => {
-      totalPrice += (item.PriceProduct * item.QuantityOfProduct) / 100;
+      const discountedPrice = isMember
+        ? item.PriceProduct * item.QuantityOfProduct * (1 - item.discount / 100)
+        : item.PriceProduct * item.QuantityOfProduct;
+  
+      totalPrice += Number((discountedPrice / 100).toFixed(2)); // Keep only two decimal places
     });
+  
     setTotalAmt(totalPrice);
-  }, [productData]);
+  }, [productData, isMember]);
+  
+  
 
   useEffect(() => {
     setIsMember(member);
@@ -190,8 +198,8 @@ const Cart = () => {
       AutomaticallyRedirectToProviderPaymentPage: null,
       IPNURL: null,
       Credentials: {
-        CompanyID: 61294932,
-        APIKey: "Gy2gopJM25FoBIRImOQCyUgJO5gp6ONTNwskd4TynjKPjKkTTb",
+        CompanyID: 171163302,
+        APIKey: "m7hsVevsojtv4iyxpFiiJsOkSuiXikW7nEKS8WYJmJ16CETYmK",
       },
       ResponseLanguage: null,
     };
@@ -237,21 +245,19 @@ const Cart = () => {
                     <p className="flex items-center gap-4 text-base font-bold">
                       סכום{" "}
                       <span className="font-titleFont font-bold text-lg">
-                        {totalAmt} ₪
+                        {totalAmt.toFixed(2)} ₪
                       </span>
                     </p>
                   </div>
                   <p className="font-titleFont font-semibold flex justify-between mt-6">
-                    {isMember && (
+                    {/* {isMember && (
                       <span className="text-lg">הנחת חבר מועדון 30%</span>
-                    )}
+                    )} */}
                   </p>
                   <p className="font-titleFont font-semibold flex justify-between mt-6">
                     הסכום הסופי{" "}
                     <span className="text-xl font-bold">
-                      {isMember
-                        ? (totalAmt - totalAmt * 0.3).toFixed(2)
-                        : totalAmt.toFixed(2)}{" "}
+                      {totalAmt.toFixed(2)}{" "}
                       ₪
                     </span>
                   </p>
