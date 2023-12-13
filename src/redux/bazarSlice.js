@@ -27,54 +27,70 @@ export const bazarSlice = createSlice({
       }
     },
     increamentQuantity: (state, action) => {
-      const item = state.productData.find(
-        (item) => item.idProduct === action.payload.idProduct
-      );
-      if(item.isGrams){
-        if (item && item.QuantityOfProduct < item.availableQuantity) {
-          item.QuantityOfProduct += 100;
-          //console.log(typeof(action.payload.PriceProduct))
-          state.total += parseInt(action.payload.PriceProduct)
+      const { idProduct, discount ,isMember} = action.payload;
+      const item = state.productData.find((item) => item.idProduct === idProduct);
+
+        if (item.isGrams) {
+          if (item && item.QuantityOfProduct < item.availableQuantity) {
+            item.QuantityOfProduct += 100;
+            if(isMember){
+              state.total += parseInt(item.PriceProduct) * (1 - discount / 100);
+            }
+            else{
+              state.total += parseInt(item.PriceProduct)
+            }
+          }
+        } else {
+          if (item && item.QuantityOfProduct < item.availableQuantity * 100) {
+            item.QuantityOfProduct += 100;
+            if(isMember){
+              state.total += parseInt(item.PriceProduct) * (1 - discount / 100);
+            }
+            else{
+              state.total += parseInt(item.PriceProduct)
+            }
+          }
         }
-      }
-      else{
-        if (item && item.QuantityOfProduct < item.availableQuantity*100) {
-          item.QuantityOfProduct += 100;
-          //console.log(typeof(action.payload.PriceProduct))
-          state.total += parseInt(action.payload.PriceProduct)
-        }
-      }
     },
+
     decrementQuantity: (state, action) => {
-      const item = state.productData.find(
-        (item) => item.idProduct === action.payload.idProduct
-      );
+      const { idProduct, discount ,isMember} = action.payload;
+      const item = state.productData.find((item) => item.idProduct === idProduct);
+      console.log(isMember);
       if (item && item.QuantityOfProduct) {
         if (item.QuantityOfProduct === 100) {
           item.QuantityOfProduct = 100;
         } else {
           item.QuantityOfProduct -= 100;
-          //console.log(typeof(action.payload.PriceProduct))
-          state.total -= parseInt(action.payload.price)
+          if(isMember){
+            state.total -= parseInt(item.PriceProduct) * (1 - discount / 100);
+          }
+          else{
+            state.total -= parseInt(item.PriceProduct)
+          }
         }
       }
     },
     deleteItem: (state, action) => {
-      const itemId = action.payload;
+      const { idProduct, discount } = action.payload;
       const deletedItem = state.productData.find(
-        (item) => item.idProduct === itemId
+        (item) => item.idProduct === idProduct
       );
       if (deletedItem) {
-        state.total -=
-          deletedItem.PriceProduct * (deletedItem.QuantityOfProduct / 100);
+        if(state.isMember){
+          state.total -= deletedItem.PriceProduct * (deletedItem.QuantityOfProduct / 100) * (1 - discount / 100);
+        }
+        else{
+          state.total -= deletedItem.PriceProduct * (deletedItem.QuantityOfProduct / 100);
+        }
       }
       state.productData = state.productData.filter(
-        (item) => item.idProduct !== itemId
+        (item) => item.idProduct !== idProduct
       );
     },
     resetCart: (state) => {
       state.productData = [];
-      state.total = 0;
+      state.total = 0.0;
     },
     setMember: (state, action) => {
       state.isMember = action.payload;
@@ -109,9 +125,15 @@ export const bazarSlice = createSlice({
   },
 });
 
+// In your actions file (e.g., bazarSlice.js)
+export const deleteItem = (idProduct, discount) => ({
+  type: 'bazar/deleteItem',
+  payload: { idProduct, discount },
+});
+
+
 export const {
   addToCart,
-  deleteItem,
   resetCart,
   increamentQuantity,
   decrementQuantity,
