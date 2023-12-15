@@ -6,37 +6,37 @@ import styled from "styled-components";
 export default function UsersPage() {
   const { users, loading, promoteToMember, demoteToUser } = useUsers([]);
 
-  const columns = [
+  const columnDefs = [
     {
-      Header: "שם פרטי",
-      accessor: "firstname",
+      headerName: "שם פרטי",
+      field: "firstname",
     },
     {
-      Header: "שם משפחה",
-      accessor: "lastname",
+      headerName: "שם משפחה",
+      field: "lastname",
     },
     {
-      Header: "מספר נייד",
-      accessor: "phone",
+      headerName: "מספר נייד",
+      field: "phone",
     },
     {
-      Header: "אמייל",
-      accessor: "email",
+      headerName: "אמייל",
+      field: "email",
     },
     {
-      Header: "חבר מועדון",
-      accessor: "isMember",
-      Cell: ({ row: { original } }) => (
-        <input
-          type="checkbox"
-          checked={original.isMember}
-          onChange={async (e) => {
-            e.target.checked
-              ? await promoteToMember(original.id)
-              : await demoteToUser(original.id);
-          }}
-        />
-      ),
+      headerName: "חבר מועדון",
+      field: "isMember",
+      cellRenderer: ({ data }) => {
+        return (
+          <div
+            style={{
+              color: data.isMember ? "green" : "red",
+            }}
+          >
+            {data.isMember ? "כן" : "לא"}
+          </div>
+        );
+      },
     },
   ];
 
@@ -47,11 +47,13 @@ export default function UsersPage() {
   return (
     <PageContainer>
       <PageTitle>לקוחות</PageTitle>
-      <FlexContainer>
-        <TableContainer>
-          <AdvancedTable data={users} columns={columns} hasExport={true} />
-        </TableContainer>
-      </FlexContainer>
+      <TableContainer>
+        <AdvancedTable
+          rowData={users}
+          columnDefs={columnDefs}
+          hasExport={true}
+        />
+      </TableContainer>
     </PageContainer>
   );
 }
@@ -70,15 +72,11 @@ const PageTitle = styled.div`
   font-weight: bold;
 `;
 
-const FlexContainer = styled.div`
-  display: flex;
-  gap: 32px;
-  min-height: 0;
-`;
-
 const TableContainer = styled.div`
   overflow: auto;
   background-color: white;
+  border: 1px #3a6c87 solid;
+  flex: 1;
 `;
 
 const OrderCardContainer = styled.div`

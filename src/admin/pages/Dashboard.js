@@ -1,55 +1,68 @@
-import { useState } from "react";
-import AdvancedTable from "../components/AdvancedTable";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Button from "../components/Button";
 import OrderCard from "../components/OrderCard";
 import useOrders from "../hooks/useOrders";
 import styled from "styled-components";
+import { AgGridReact } from "ag-grid-react";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-quartz.css";
+import { ButtonBase, Checkbox } from "@mui/material";
+import AdvancedTable from "../components/AdvancedTable";
 
 export default function Dashboard() {
+  const gridRef = useRef();
   const [orders, loading, error] = useOrders();
   const [selectedOrder, setSelectedOrder] = useState(null);
 
-  const columns = [
+  const onRowSelected = useCallback((event) => {
+    const order = event.data;
+    setSelectedOrder(order);
+  }, []);
+
+  const columnDefs = [
     {
-      Header: "שם פרטי",
-      accessor: "firstName",
+      field: "orderId",
+      headerName: "מספר הזמנה",
     },
     {
-      Header: "שם משפחה",
-      accessor: "lastName",
+      field: "firstName",
+      headerName: "שם פרטי",
     },
     {
-      Header: "מספר נייד",
-      accessor: "phoneNumber",
+      field: "lastName",
+      headerName: "שם משפחה",
     },
     {
-      Header: "אמייל",
-      accessor: "email",
+      field: "phoneNumber",
+      headerName: "מספר נייד",
     },
     {
-      Header: "חבר מועדון",
-      accessor: "isMember",
-      Cell: ({ cell: { value } }) => <span>{value ? "כן" : "לא"}</span>,
+      field: "email",
+      headerName: "מייל",
     },
     {
-      Header: "תשלום",
-      accessor: "payment",
+      field: "isMember",
+      headerName: "חבר מועדון",
+      cellRenderer: ({ data }) => {
+        return (
+          <div
+            style={{
+              color: data.isMember ? "green" : "red",
+            }}
+          >
+            {data.isMember ? "כן" : "לא"}
+          </div>
+        );
+      },
     },
     {
-      Header: "טופל",
-      accessor: "isDone",
-      Cell: ({ cell: { value } }) => <span>{value ? "כן" : "לא"}</span>,
+      field: "payment",
+      headerName: "תשלום",
     },
     {
-      id: "showOrderCard",
-      Cell: ({ row }) =>
-        row.original === selectedOrder ? (
-          <Button color="red" onClick={() => setSelectedOrder(null)}>
-            הסתר
-          </Button>
-        ) : (
-          <Button onClick={() => setSelectedOrder(row.original)}>פרטים</Button>
-        ),
+      field: "isDone",
+      headerName: "טופל",
+      editable: true,
     },
   ];
 
@@ -67,10 +80,9 @@ export default function Dashboard() {
       <FlexContainer>
         <TableContainer>
           <AdvancedTable
-            data={orders}
-            selectedData={[selectedOrder]}
-            columns={columns}
-            hasExport={true}
+            columnDefs={columnDefs}
+            rowData={orders}
+            onRowSelected={onRowSelected}
           />
         </TableContainer>
         {selectedOrder && (
@@ -101,14 +113,17 @@ const FlexContainer = styled.div`
   display: flex;
   gap: 32px;
   min-height: 0;
+  flex-grow: 1;
 `;
 
 const TableContainer = styled.div`
   overflow: auto;
-  background-color: white;
+  flex: 3;
+  border: 1px solid #3a6c87;
 `;
 
 const OrderCardContainer = styled.div`
   background-color: blanchedalmond;
   overflow: auto;
+  flex: 1;
 `;

@@ -27,169 +27,37 @@ import CheckBox from "../components/CheckBox/CheckBox";
 import NewProductBannerV2 from "../components/NewProductBannerV2";
 import useProducts from "../hooks/useProducts";
 import useStores from "../hooks/useStores";
+import useOrders from "../hooks/useOrders";
+import AdvancedTable from "../components/AdvancedTable";
 
 export default function ProductPage() {
-  const { stores, storesLoading } = useStores();
-  const [selectedStoreID, setSelectedStoreID] = useState(null);
-  const [productToDelete, setProductToDelete] = useState(null);
-  const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
-  const selectedStore = stores?.find((store) => store.id === selectedStoreID);
+  const [orders, loading, error] = useOrders();
+  const columns = [
+    {
+      Header: "שם פרטי",
+      accessor: "firstName",
+    },
+    {
+      Header: "שם משפחה",
+      accessor: "lastName",
+    },
+    {
+      Header: "מספר נייד",
+      accessor: "phoneNumber",
+    },
+    {
+      Header: "אמייל",
+      accessor: "email",
+    },
 
-  const {
-    products,
-    loading: productsLoading,
-    addProduct,
-    updateProduct,
-    deleteProduct,
-  } = useProducts(selectedStoreID);
-
-  const options = [
-    { value: true, label: "גרמים" },
-    { value: false, label: "יחידים" },
+    {
+      Header: "תשלום",
+      accessor: "payment",
+    },
   ];
-  const updateProductImage = async (productID, productImage) => {
-    const imageRef = ref(storage, `productsImages/${productID}`);
-    await uploadBytes(imageRef, productImage);
-    const imageUrl = await getDownloadURL(imageRef);
-    updateProduct(productID, { imageUrl });
-  };
-  return (
-    <div className={styles.container}>
-      <h1 className="text-3xl mb-6 font-bold">מוצרים</h1>
-      <div className={styles.header}>
-        <NewProductBannerV2 addProduct={addProduct} disabled={!selectedStore} />
-      </div>
-      <select
-        onChange={(e) => {
-          setSelectedStoreID(e.target.value);
-        }}
-      >
-        <option disabled selected className={styles.optionclass} value="">
-          תבחר חנות
-        </option>
-        {stores?.map((store) => (
-          <option className={styles.optionclass} value={store.id}>
-            {store.name}
-          </option>
-        ))}
-      </select>
-      {selectedStoreID && (
-        <>
-          <TableV2>
-            <TableHead>
-              <TableHeader></TableHeader>
-              <TableHeader>שם</TableHeader>
-              <TableHeader>מחיר</TableHeader>
-              <TableHeader>הנחת חבר מועדון</TableHeader>
-              <TableHeader>כמות</TableHeader>
-              <TableHeader>סוג</TableHeader>
-              <TableHeader>תמונה</TableHeader>
-              <TableHeader>תיאור קצר</TableHeader>
-              <TableHeader>הסתר</TableHeader>
-            </TableHead>
-            <TableBody>
-              {products
-                .sort((a, b) => b.price - a.price)
-                .map((product) => (
-                  <Row>
-                    <IconButton
-                      onClick={() => {
-                        setProductToDelete(product);
-                        setDeleteConfirmationOpen(true);
-                      }}
-                    >
-                      <RemoveCircleIcon style={{ color: "#d9534f" }} />
-                    </IconButton>
-                    <input
-                      defaultValue={product.name}
-                      onChange={(e) => {
-                        e.target.value = e.target.value;
-                      }}
-                      onBlur={(e) =>
-                        updateProduct(product.id, { name: e.target.value })
-                      }
-                    />
-                    <input
-                      defaultValue={product.price}
-                      onBlur={(e) =>
-                        updateProduct(product.id, { price: e.target.value })
-                      }
-                    />
-                    <input
-                      defaultValue={product.discount}
-                      onBlur={(e) =>
-                        updateProduct(product.id, { discount: e.target.value })
-                      }
-                    />
-                    <input
-                      defaultValue={product.quantity}
-                      type="number"
-                      onBlur={(e) =>
-                        updateProduct(product.id, { quantity: e.target.value })
-                      }
-                    />
-                    <DropDownV2
-                      options={options}
-                      value={product.isGrams ? options[0] : options[1]}
-                      onChange={(option) =>
-                        updateProduct(product.id, { isGrams: option.value })
-                      }
-                    />
-                    <ImageDrop
-                      imageStartUrl={product.imageUrl}
-                      onChange={(newImage) =>
-                        updateProductImage(product.id, newImage)
-                      }
-                    />
-                    <input
-                      defaultValue={product.desc}
-                      onBlur={(e) =>
-                        updateProduct(product.id, { desc: e.target.value })
-                      }
-                    />
-                    <CheckBox
-                      checked={product.hide}
-                      update={(value) =>
-                        updateProduct(product.id, { hide: value })
-                      }
-                    />
-                  </Row>
-                ))}
-            </TableBody>
-          </TableV2>
-          <Dialog
-            open={deleteConfirmationOpen}
-            onClose={() => setProductToDelete(null)}
-            maxWidth="md"
-            PaperProps={{
-              style: {
-                width: "20%",
-                maxHeight: "80vh",
-              },
-            }}
-          >
-            <DialogTitle id="alert-dialog-title">
-              {"למחוק את המוצר ?"}
-            </DialogTitle>
-            <DialogActions>
-              <Button onClick={() => setDeleteConfirmationOpen(false)}>
-                בטל
-              </Button>
-              <Button
-                onClick={() => {
-                  console.log(productToDelete.name);
-                  deleteProduct(productToDelete.id);
-                  setDeleteConfirmationOpen(false);
-                }}
-                style={{ color: "red" }}
-                autoFocus
-              >
-                מחק
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </>
-      )}
-    </div>
-  );
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+  return <AdvancedTable data={orders} columns={columns} hasExport={true} />;
 }
