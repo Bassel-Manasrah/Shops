@@ -2,7 +2,7 @@
 
 .sidenav {
   width: 250px;
-  background-color: rgba(87, 121, 91, 0.961);
+  background-color: #3a6c87;
   font-family: "Poppins";
   display: flex;
   flex-direction: column;
@@ -28,7 +28,7 @@
 }
 
 .sidenav-item:hover {
-  background-color: #455f48;
+  background-color: #204f69;
   cursor: pointer;
 }
 /* 
