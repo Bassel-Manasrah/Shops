@@ -2,7 +2,6 @@ import "./App.css";
 
 import { Routes, Route } from "react-router-dom";
 import Sidenav from "./components/Sidenav";
-import AdminPage from "./pages/AdminPage";
 import ProductPage from "./pages/ProductPage";
 
 import {
@@ -29,9 +28,7 @@ import {
 //   getDummyProducts,
 //   getDummyUsers,
 // } from "./services/dummyFirebase";
-import EventPage from "./pages/EventPage";
 import Dashboard from "./pages/Dashboard";
-import { Static } from "./pages/static/static";
 import StoresPage from "./pages/StoresPage/StoresPage";
 import UsersPage from "./pages/UsersPage";
 
@@ -42,8 +39,7 @@ function Admin() {
       <Sidenav />
       <div className="content">
         <Routes>
-          <Route path="/" element={<EventPage />} />
-          <Route path="/events/" element={<EventPage />} />
+          <Route path="/" element={<StoresPage />} />
           <Route path="/stores/" element={<StoresPage />} />
           <Route path="/products" element={<ProductPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
@@ -76,7 +72,6 @@ function Admin() {
               />
             }
           /> */}
-          <Route path="/stats" element={<Static />} />
         </Routes>
       </div>
     </div>

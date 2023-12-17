@@ -15,12 +15,7 @@ export const navData = [
     text: "חנויות",
     value: "stores",
   },
-  {
-    id: 1,
-    icon: <CelebrationIcon />,
-    text: "אירועים",
-    value: "events",
-  },
+
   {
     id: 2,
     icon: <CategoryIcon />,
@@ -39,11 +34,5 @@ export const navData = [
     icon: <LocalMallIcon />,
     text: "הזמנות",
     value: "dashboard",
-  },
-  {
-    id: 5,
-    icon: <LocalMallIcon />,
-    text: "סטטיסטיקה",
-    value: "stats",
   },
 ];
