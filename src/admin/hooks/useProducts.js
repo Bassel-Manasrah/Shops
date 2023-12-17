@@ -23,16 +23,23 @@ function useProducts(storeID) {
       await fetchStore();
     }
     onSnapshot(storeDocRef, async (snapshot) => {
+      console.log(snapshot);
       const store = { ...snapshot.data(), id: snapshot.id };
       const produtsSnapshot = await getDocs(productsCollectionRef);
+
       const allProducts = produtsSnapshot.docs.map((doc) => {
         return { id: doc.id, ...doc.data() };
       });
       const storeProducts = store.products;
+      console.log(
+        "res",
+        allProducts.filter((product) => storeProducts.includes(product.id))
+      );
 
       setProducts(
         allProducts.filter((product) => storeProducts.includes(product.id))
       );
+
       setLoading(false);
     });
   };
@@ -76,6 +83,19 @@ function useProducts(storeID) {
     await getProducts();
   };
 
+  const updateProductWithoutCommit = async (productID, update) => {
+    console.log(productID, update);
+    const updatedProducts = products.map((product) => {
+      if (product.id === productID) {
+        return { ...product, ...update };
+      } else {
+        return product;
+      }
+    });
+    console.log(updatedProducts);
+    setProducts(updatedProducts);
+  };
+
   const deleteProduct = async (productID) => {
     if (!store) {
       await fetchStore();
@@ -94,6 +114,7 @@ function useProducts(storeID) {
     addProduct,
     updateProduct,
     deleteProduct,
+    updateProductWithoutCommit,
   };
 }
 

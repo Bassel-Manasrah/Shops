@@ -41,6 +41,7 @@ export default function ProductPage() {
     addProduct,
     updateProduct,
     deleteProduct,
+    updateProductWithoutCommit,
   } = useProducts(selectedStoreID);
 
   const options = [
@@ -88,73 +89,98 @@ export default function ProductPage() {
               <TableHeader>הסתר</TableHeader>
             </TableHead>
             <TableBody>
-              {products
-                .sort((a, b) => b.price - a.price)
-                .map((product) => (
-                  <Row>
-                    <IconButton
-                      onClick={() => {
-                        setProductToDelete(product);
-                        setDeleteConfirmationOpen(true);
-                      }}
-                    >
-                      <RemoveCircleIcon style={{ color: "#d9534f" }} />
-                    </IconButton>
-                    <input
-                      defaultValue={product.name}
-                      onChange={(e) => {
-                        e.target.value = e.target.value;
-                      }}
-                      onBlur={(e) =>
-                        updateProduct(product.id, { name: e.target.value })
-                      }
-                    />
-                    <input
-                      defaultValue={product.price}
-                      onBlur={(e) =>
-                        updateProduct(product.id, { price: e.target.value })
-                      }
-                    />
-                    <input
-                      defaultValue={product.discount}
-                      onBlur={(e) =>
-                        updateProduct(product.id, { discount: e.target.value })
-                      }
-                    />
-                    <input
-                      defaultValue={product.quantity}
-                      type="number"
-                      onBlur={(e) =>
-                        updateProduct(product.id, { quantity: e.target.value })
-                      }
-                    />
-                    <DropDownV2
-                      options={options}
-                      value={product.isGrams ? options[0] : options[1]}
-                      onChange={(option) =>
-                        updateProduct(product.id, { isGrams: option.value })
-                      }
-                    />
-                    <ImageDrop
-                      imageStartUrl={product.imageUrl}
-                      onChange={(newImage) =>
-                        updateProductImage(product.id, newImage)
-                      }
-                    />
-                    <input
-                      defaultValue={product.desc}
-                      onBlur={(e) =>
-                        updateProduct(product.id, { desc: e.target.value })
-                      }
-                    />
-                    <CheckBox
-                      checked={product.hide}
-                      update={(value) =>
-                        updateProduct(product.id, { hide: value })
-                      }
-                    />
-                  </Row>
-                ))}
+              {products.map((product) => (
+                <Row>
+                  <IconButton
+                    onClick={() => {
+                      setProductToDelete(product);
+                      setDeleteConfirmationOpen(true);
+                    }}
+                  >
+                    <RemoveCircleIcon style={{ color: "#d9534f" }} />
+                  </IconButton>
+                  <input
+                    value={product.name}
+                    onChange={(e) => {
+                      updateProductWithoutCommit(product.id, {
+                        name: e.target.value,
+                      });
+                    }}
+                    onBlur={(e) =>
+                      updateProduct(product.id, {
+                        name: e.target.value,
+                      })
+                    }
+                  />
+                  <input
+                    value={product.price}
+                    onChange={(e) => {
+                      updateProductWithoutCommit(product.id, {
+                        price: e.target.value,
+                      });
+                    }}
+                    type="number"
+                    onBlur={(e) =>
+                      updateProduct(product.id, {
+                        price: parseInt(e.target.value, 10),
+                      })
+                    }
+                  />
+                  <input
+                    value={product.discount}
+                    onChange={(e) => {
+                      updateProductWithoutCommit(product.id, {
+                        discount: e.target.value,
+                      });
+                    }}
+                    type="number"
+                    onBlur={(e) =>
+                      updateProduct(product.id, {
+                        discount: parseInt(e.target.value, 10),
+                      })
+                    }
+                  />
+                  <input
+                    value={product.quantity}
+                    onChange={(e) => {
+                      updateProductWithoutCommit(product.id, {
+                        quantity: e.target.value,
+                      });
+                    }}
+                    type="number"
+                    onBlur={(e) =>
+                      updateProduct(product.id, {
+                        quantity: parseInt(e.target.value, 10),
+                      })
+                    }
+                  />
+                  <DropDownV2
+                    options={options}
+                    value={product.isGrams ? options[0] : options[1]}
+                    onChange={(option) =>
+                      updateProduct(product.id, { isGrams: option.value })
+                    }
+                  />
+                  <ImageDrop
+                    imageStartUrl={product.imageUrl}
+                    onChange={(newImage) =>
+                      updateProductImage(product.id, newImage)
+                    }
+                  />
+                  <input
+                    value={product.desc}
+                    onBlur={(e) =>
+                      updateProduct(product.id, { desc: e.target.value })
+                    }
+                  />
+                  <CheckBox
+                    checked={product.isHide}
+                    update={(value) =>
+                      updateProduct(product.id, { isHide: value })
+                    }
+                  />
+                </Row>
+              ))}
             </TableBody>
           </TableV2>
           <Dialog

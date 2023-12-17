@@ -1,14 +1,9 @@
-import {
-  Button,
-  Checkbox,
-  FormControlLabel,
-  MenuItem,
-  Select,
-} from "@mui/material";
-import { useForm } from "react-hook-form";
+import { Button, Checkbox, FormControlLabel, MenuItem } from "@mui/material";
+import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import TextField from "./TextField";
+import Select from "react-select";
 
 export default function NewProductBannerV2({ addProduct, disabled }) {
   const schema = yup.object().shape({
@@ -35,7 +30,10 @@ export default function NewProductBannerV2({ addProduct, disabled }) {
 
   const onSubmit = (data) => {
     reset();
-    addProduct(data);
+    const { name, price, quantity, discount, desc, isHide } = data;
+    const isGrams = data.unit.value === "grams";
+    console.log({ name, price, quantity, discount, desc, isHide, isGrams });
+    addProduct({ name, price, quantity, discount, desc, isHide, isGrams });
   };
 
   const {
@@ -44,9 +42,14 @@ export default function NewProductBannerV2({ addProduct, disabled }) {
     trigger,
     reset,
     formState: { errors },
+    control,
   } = useForm({
     mode: "all",
     resolver: yupResolver(schema),
+    defaultValues: {
+      isHide: false,
+      unit: { value: "grams", label: "גרמים" },
+    },
   });
 
   return (
@@ -113,26 +116,31 @@ export default function NewProductBannerV2({ addProduct, disabled }) {
         {...register("desc")}
       />
 
-      <Select
-        disabled={disabled}
-        size="small"
-        {...register("isGrams")}
-        defaultValue={false}
-      >
-        <MenuItem value={false}>יחידים</MenuItem>
-        <MenuItem value={true}>גרמים</MenuItem>
-      </Select>
-
-      <FormControlLabel
-        control={
-          <Checkbox
-            {...register("isHide")}
-            disabled={disabled}
-            defaultValue={false}
+      <Controller
+        name="unit"
+        control={control}
+        render={({ field }) => (
+          <Select
+            {...field}
+            options={[
+              { value: "grams", label: "גרמים" },
+              { value: "descrete", label: "יחידים" },
+            ]}
           />
-        }
-        label="הסתר"
-        className="flex-1 h-9"
+        )}
+      />
+
+      <Controller
+        name="isHide"
+        control={control}
+        render={({ field }) => {
+          return (
+            <FormControlLabel
+              label="הסתר"
+              control={<Checkbox {...field} checked={field.value} />}
+            ></FormControlLabel>
+          );
+        }}
       />
 
       <Button
