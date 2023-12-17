@@ -149,7 +149,7 @@ export default function NewProductBannerV2({ addProduct, disabled }) {
         type="submit"
         className="flex-1 h-9"
         style={{
-          backgroundColor: "rgb(87, 121, 91, 0.959)",
+          backgroundColor: "#3a6c87",
           color: "white",
           ...(disabled && {
             opacity: 0.6,
