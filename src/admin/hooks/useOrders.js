@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { getOrders } from "../services/firebase";
+import { doc, updateDoc } from "firebase/firestore";
+import { database } from "../../firebase";
 
 function useOrders() {
   const [orders, setOrders] = useState([]);
@@ -21,7 +23,12 @@ function useOrders() {
     fetchOrders();
   }, []);
 
-  return [orders, loading, error];
+  const updateOrder = async (orderID, update) => {
+    const docRef = doc(database, "orders", orderID);
+    await updateDoc(docRef, update);
+  };
+
+  return [orders, loading, error, updateOrder];
 }
 
 export default useOrders;

@@ -11,7 +11,7 @@ import AdvancedTable from "../components/AdvancedTable";
 
 export default function Dashboard() {
   const gridRef = useRef();
-  const [orders, loading, error] = useOrders();
+  const [orders, loading, error, updateOrder] = useOrders();
   const [selectedOrder, setSelectedOrder] = useState(null);
 
   const onRowSelected = useCallback((event) => {
@@ -83,6 +83,7 @@ export default function Dashboard() {
             columnDefs={columnDefs}
             rowData={orders}
             onRowSelected={onRowSelected}
+            onEdit={(order) => updateOrder(order.id, order)}
           />
         </TableContainer>
         {selectedOrder && (

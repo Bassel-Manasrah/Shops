@@ -7,7 +7,12 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import { useMemo } from "react";
 
-export default function AdvancedTable({ rowData, columnDefs, onRowSelected }) {
+export default function AdvancedTable({
+  rowData,
+  columnDefs,
+  onRowSelected,
+  onEdit,
+}) {
   const exportClickHandler = () => {
     const modifiedColumns = columnDefs.map((col) => ({
       header: col.headerName,
@@ -33,6 +38,9 @@ export default function AdvancedTable({ rowData, columnDefs, onRowSelected }) {
     singleClickEdit: true,
     suppressCellFocus: true,
     stopEditingWhenCellsLoseFocus: true,
+    onCellEditingStopped: ({ data }) => {
+      onEdit(data);
+    },
   };
 
   return (
