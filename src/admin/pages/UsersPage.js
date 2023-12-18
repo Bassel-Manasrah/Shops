@@ -26,17 +26,18 @@ export default function UsersPage() {
     {
       headerName: "חבר מועדון",
       field: "isMember",
-      cellRenderer: ({ data }) => {
-        return (
-          <div
-            style={{
-              color: data.isMember ? "green" : "red",
-            }}
-          >
-            {data.isMember ? "כן" : "לא"}
-          </div>
-        );
-      },
+      editable: true,
+      // cellRenderer: ({ data }) => {
+      //   return (
+      //     <div
+      //       style={{
+      //         color: data.isMember ? "green" : "red",
+      //       }}
+      //     >
+      //       {data.isMember ? "כן" : "לא"}
+      //     </div>
+      //   );
+      // },
     },
   ];
 
@@ -52,6 +53,9 @@ export default function UsersPage() {
           rowData={users}
           columnDefs={columnDefs}
           hasExport={true}
+          onEdit={(data) => {
+            data.isMember ? promoteToMember(data.id) : demoteToUser(data.id);
+          }}
         />
       </TableContainer>
     </PageContainer>
